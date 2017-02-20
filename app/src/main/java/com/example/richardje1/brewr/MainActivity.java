@@ -24,10 +24,7 @@ public class MainActivity extends Activity{
         loginButton = (Button)findViewById(R.id.login_button);
         enterUsername = (EditText)findViewById(R.id.enter_username_text);
         enterPassword = (EditText)findViewById(R.id.enter_password_text);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
+        
 
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
