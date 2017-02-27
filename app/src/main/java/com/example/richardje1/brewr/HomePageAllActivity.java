@@ -77,7 +77,7 @@ public class HomePageAllActivity extends FragmentActivity {
             super(fm);
         }
 
-        
+
         @Override
         public Fragment getItem(int position) {
             return new ScreenSlidePageFragment();
