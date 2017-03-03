@@ -1,4 +1,5 @@
 package com.example.richardje1.brewr;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,8 @@ public class HomePageAllActivity extends FragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        final ActionBar actionBar = getActionBar();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screens_slide);
 
@@ -59,6 +62,7 @@ public class HomePageAllActivity extends FragmentActivity {
             }
         });
 
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
     }
     @Override
@@ -78,24 +82,28 @@ public class HomePageAllActivity extends FragmentActivity {
         }
 
 
-        @Override
-        public Fragment getItem(int position) {
-            return new ScreenSlidePageFragment();
-        }
+       // @Override
+       // public Fragment getItem(int position) {
+       //     return new ScreenSlidePageFragment();
+       // }
 
-        /**
+
         @Override
         public Fragment getItem(int i) {
             Fragment fragment = new ScreenSlidePageFragment();
             Bundle args = new Bundle();
-            // Our object is just an integer :-P
-            args.putInt(ScreenSlidePagerAdapter.ARG_OBJECT, i + 1);
+
+            args.putInt(ScreenSlidePageFragment.ARG_OBJECT, i + 1);
             fragment.setArguments(args);
             return fragment;
         }
-         **/
 
+        //https://developer.android.com/training/implementing-navigation/lateral.html
+        // **/
 
+        public CharSequence getPageTitle(int position){
+            return "OBJECT " + (position + 1);
+        }
         @Override
         public int getCount() {
             return NUM_PAGES;
