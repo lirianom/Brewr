@@ -20,9 +20,9 @@ public class ScreenSlidePageFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide_page, container, false);
         Bundle args = getArguments();
-        /**((TextView) rootView.findViewById(android.R.id.text1))
+        ((TextView) rootView.findViewById(android.R.id.text1))
                 .setText(
-                Integer.toString(args.getInt(ARG_OBJECT))); **/
+                Integer.toString(args.getInt(ARG_OBJECT)));
         return rootView;
     }
 
