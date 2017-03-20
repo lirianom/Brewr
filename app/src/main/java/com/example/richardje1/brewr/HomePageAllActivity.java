@@ -82,10 +82,10 @@ public class HomePageAllActivity extends FragmentActivity {
         }
 
 
-       // @Override
-       // public Fragment getItem(int position) {
-       //     return new ScreenSlidePageFragment();
-       // }
+        // @Override
+        // public Fragment getItem(int position) {
+        //     return new ScreenSlidePageFragment();
+        // }
 
 
         @Override

@@ -6,4 +6,12 @@
     <string name="prompt_email">Email</string>
     <string name="login_text">Login</string>
     <string name="test">Test</string>
+    <string name="title_activity_screen_slide_fragment">ScreenSlideFragment</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_home_page">Home Page</string>
+    <string name="brew_title_label">Title</string>
+    <string name="brew_details_label">Details</string>
+    <string name="brew_title_hint">plz fix</string>
+    <string name="title_activity_single_fragment">SingleFragmentActivity</string>
 </resources>

@@ -37,7 +37,8 @@ public class MainActivity extends Activity{
                     Toast.makeText(getApplicationContext(),
                             "Login Successful", Toast.LENGTH_SHORT).show();
 
-                    Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
+                    //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
+                    Intent myIntent = new Intent(v.getContext(), HomePageActivity.class);
                     startActivityForResult(myIntent, 0);
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong Credentials",
