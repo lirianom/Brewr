@@ -22,8 +22,10 @@ import static android.R.attr.fragment;
 
 public class BrewFragment extends Fragment {
     private Brew mBrew;
-    private EditText mTitleField;
-    private Button mDateButton;
+    private TextView mTitleField;
+    private TextView mBrewDate;
+    private TextView mUsername;
+
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private static final String ARG_BREW_ID = "brew_id";
@@ -49,7 +51,7 @@ public class BrewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_brew, parent, false);
-        mTitleField = (EditText)v.findViewById(R.id.brew_title);
+        mTitleField = (TextView)v.findViewById(R.id.brew_title);
         mTitleField.setText(mBrew.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -67,6 +69,8 @@ public class BrewFragment extends Fragment {
                 //todo
             }
         });
+        mBrewDate = (TextView)v.findViewById(R.id.brew_date);
+        mUsername = (TextView)v.findViewById(R.id.username);
         return v;
     }
 

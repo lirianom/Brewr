@@ -23,7 +23,17 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
+
+
         </android.support.v7.widget.Toolbar>
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:color/background_light"
+            android:id="@+id/imageButton6"
+            android:layout_weight="10" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"

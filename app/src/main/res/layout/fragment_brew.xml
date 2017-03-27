@@ -1,27 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:id="@+id/fragment_brew"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <TextView
+        android:id="@+id/brew_date"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:text="date"
+        android:layout_gravity="right"
+        android:padding="10dp"
+
+        android:layout_below="@+id/brew_title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/username"
+        android:text="username"
+
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/brew_title"
+        android:layout_toStartOf="@+id/brew_date"
+        android:layout_toLeftOf="@+id/brew_date" />
+
+    <TextView
+        android:id="@+id/brew_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/brew_title_label"
-        style="?android:listSeparatorTextViewStyle"/>
-    <EditText android:id="@+id/brew_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/brew_title_hint"/>
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username" />
+
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/brew_details_label"
-        style="?android:listSeparatorTextViewStyle"/>
-    <Button android:id="@+id/brew_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:text="likes #"
+        android:id="@+id/likes"
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_below="@+id/username"
+        android:layout_toLeftOf="@+id/brew_date" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="comments #"
+        android:id="@+id/comments"
+        style="?android:listSeparatorTextViewStyle"
+
+
+        android:layout_below="@+id/brew_date"
+        android:layout_toRightOf="@+id/likes"
+        android:layout_toEndOf="@+id/likes" />
+
+    <TextView
+        android:text="Method"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_below="@+id/likes"
+        />
+
+    <TextView
+        android:text="Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView7"
+        style="?android:listSeparatorTextViewStyle"
+
+        android:layout_marginTop="31dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>
