@@ -18,11 +18,15 @@ public class BrewLab {
     private BrewLab(Context appContext){
         mAppContext = appContext;
         mBrews = new ArrayList<Brew>();
+
+
+        /**
         for(int i = 0; i <50; i++){
             Brew b = new Brew();
             b.setTitle("Activity #" + i);
             mBrews.add(b);
         }
+         **/
     }
     public static BrewLab get(Context c){
         if(sBrewLab == null){
@@ -39,5 +43,9 @@ public class BrewLab {
                 return b;
         }
         return null;
+    }
+
+    public void addBrew(Brew b){
+        mBrews.add(b);
     }
 }
