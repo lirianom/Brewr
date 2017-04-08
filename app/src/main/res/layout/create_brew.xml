@@ -42,12 +42,13 @@
         android:layout_alignStart="@+id/username" />
 
 
+
     <TextView
         android:text="Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView7"
-        android:layout_below="@id/brew_method"
+        android:layout_below="@+id/brew_method"
         style="?android:listSeparatorTextViewStyle"
         />
 

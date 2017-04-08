@@ -25,7 +25,7 @@ public class BrewFragment extends Fragment {
     private TextView mUsername;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-
+    public static final String EXTRA_BREW_ID = "brewr.CRIME_ID";
     private static final String ARG_BREW_ID = "brew_id";
 
     public static BrewFragment newInstance(UUID brewId) {

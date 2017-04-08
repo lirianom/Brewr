@@ -20,13 +20,13 @@ public class BrewLab {
         mBrews = new ArrayList<Brew>();
 
 
-        /**
-        for(int i = 0; i <50; i++){
+
+        for(int i = 0; i <15; i++){
             Brew b = new Brew();
             b.setTitle("Activity #" + i);
             mBrews.add(b);
         }
-         **/
+
     }
     public static BrewLab get(Context c){
         if(sBrewLab == null){

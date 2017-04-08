@@ -3,6 +3,7 @@ package com.example.richardje1.brewr;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,13 +33,17 @@ public class BrewListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.brew_title);
         mBrews = BrewLab.get(getActivity()).getBrews();
+        //BrewHolder brewHolder = new BrewHolder();
+        //brewHolder.getItemId();
         //setHasOptionsMenu(true);
 
-        //ArrayAdapter<Brew> adapter = new ArrayAdapter<Brew>(getActivity(),
-        //                                    android.R.layout.simple_list_item_1,
-        //                                    mBrews);
+        //BrewAdapter adapter = new BrewAdapter(mBrews);
+
+        //setListAdapter(adapter);
         //setListAdapter(adapter);
     }
+
+
     private class BrewHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener{
         private TextView mTitleTextView;
@@ -125,10 +130,12 @@ public class BrewListFragment extends Fragment {
         super.onResume();
         updateUI();
     }
-
+    /**
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()){
+
             case R.id.new_brew:
                 Brew brew = new Brew();
                 BrewLab.get(getActivity()).addBrew(brew);
@@ -139,7 +146,12 @@ public class BrewListFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected();
         }
+
+
+        return true;
     }
+    **/
+
 
 
 

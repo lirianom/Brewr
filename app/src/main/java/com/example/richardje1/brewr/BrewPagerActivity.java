@@ -19,9 +19,9 @@ public class BrewPagerActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewPager = new ViewPager(this);
-        mViewPager.setId(R.id.viewPager);
-        setContentView(mViewPager);
+        //mViewPager = new ViewPager(this);
+        //mViewPager.setId(R.id.fragment_brew);
+        //setContentView(mViewPager);
 
         final ArrayList<Brew> brews = BrewLab.get(this).getBrews();
 
@@ -38,12 +38,15 @@ public class BrewPagerActivity extends FragmentActivity {
             }
         });
 
-        UUID brewId = (UUID)getIntent().getSerializableExtra(BrewFragment.EXTRA_BREW_ID);
+        UUID brewId = (UUID)getIntent()
+                .getSerializableExtra(BrewFragment.EXTRA_BREW_ID);
         for (int i = 0; i < brews.size(); i++) {
-            if (brews.get(i).getId().equals(brewId)) {
-                mViewPager.setCurrentItem(i);
+           if (brews.get(i).getId().equals(brewId)) {
+                     mViewPager.setCurrentItem(i);
+           }
                 break;
-            }
         }
     }
+
 }
+
