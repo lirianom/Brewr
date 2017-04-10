@@ -51,12 +51,15 @@ public class MainActivity extends Activity{
         makeAccountButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Make Account Screen",
-                            Toast.LENGTH_SHORT).show();
 
+                    //Toast.makeText(getApplicationContext(), "Make Account Screen",
+                    //      Toast.LENGTH_SHORT).show();
+                    Intent myIntent = new Intent(v.getContext(), CreateUser.class);
+                    startActivityForResult(myIntent, 0);
+                }
 
-            }
-        });
+            });
+
 
 
     }
