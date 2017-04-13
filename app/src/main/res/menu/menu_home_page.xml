@@ -4,10 +4,11 @@
     tools:context="com.example.richardje1.brewr.HomePageActivity">
 
     <item
-        android:id="@+id/add_activity"
+        android:id="@+id/add_activity_idk"
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_name"
         android:title="@string/action_settings"
+        android:onClick="createUser"
         app:showAsAction="always" />
 
     <item

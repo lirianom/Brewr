@@ -1,5 +1,6 @@
 package com.example.richardje1.brewr;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class HomePageActivity extends AppCompatActivity {
 
@@ -35,6 +37,7 @@ public class HomePageActivity extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
+    private FloatingActionButton mFloatingActionButton;
     private ViewPager mViewPager;
     //private LinearLayout mLinearLayout;
 
@@ -44,7 +47,48 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.add_activity);
+
+
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(),
+                            "make activity", Toast.LENGTH_SHORT).show();
+
+                    //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
+                    Intent myIntent = new Intent(v.getContext(), CreateUser.class);
+                    startActivityForResult(myIntent, 0);
+
+
+                }
+
+        });
+        /**
+        toolbar.inflateMenu(R.menu.menu_home_page);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
+            @Override
+            public boolean onMenuItemClick(MenuItem item){
+                switch(item.getItemId()){
+                    case R.id.action_settings:
+                        return true;
+                    case R.id.add_activity:
+                        CreateUser user = new CreateUser();
+                        Intent myIntent = new Intent(this.get);
+                        startActivityForResult(myIntent, 0);
+                        return true;
+                }
+
+               return false;
+            }
+        });
+         **/
         setSupportActionBar(toolbar);
+        //MenuItem createActivity = (MenuItem) findViewById(R.id.add_activity);
+        //onOptionsItemSelected(createActivity);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -76,11 +120,17 @@ public class HomePageActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.add_activity) {
+            //CreateUser cr = new CreateUser();
+            //Intent myIntent = new Intent((R.id.add_activity).getContext(), CreateUser.class);
+            //startActivityForResult(myIntent, 0);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void createUser(MenuItem item){
+        CreateUser cr = new CreateUser();
     }
 
     /**

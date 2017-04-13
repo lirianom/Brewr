@@ -27,4 +27,6 @@
     <string name="add_activity_button">Add an Activity</string>
     <string name="brew_title">Brew Title</string>
     <string name="new_brew">New Acitivity</string>
+    <string name="username">Your Username</string>
+    <string name="put_description_here">Put your description here</string>
 </resources>

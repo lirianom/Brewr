@@ -18,6 +18,8 @@ public class CreateUser extends Activity {
             enterEmail;
     Button createButton;
 
+    String fName, lName, username, password, email;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
@@ -28,7 +30,15 @@ public class CreateUser extends Activity {
         enterPassword = (EditText) findViewById(R.id.edit_password);
         enterEmail = (EditText) findViewById(R.id.edit_email);
         createButton = (Button) findViewById(R.id.make_account_button);
-/**
+
+        fName = enterFname.getText().toString();
+        lName = enterLname.getText().toString();
+        username = enterUsername.getText().toString();
+        password = enterPassword.getText().toString();
+        email = enterEmail.getText().toString();
+
+
+        /*8
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,6 +46,8 @@ public class CreateUser extends Activity {
                 //       enterPassword.getText().toString().equals("a")) {
                 Toast.makeText(getApplicationContext(),
                         "Created", Toast.LENGTH_SHORT).show();
+                //Intent myIntent = new Intent(v.getContext(), HomePageActivity.class);
+                //startActivityForResult(myIntent, 0);
 
                 //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
                 //Intent myIntent = new Intent(v.getContext(), HomePageActivity.class);
