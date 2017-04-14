@@ -19,6 +19,8 @@ public class MainActivity extends Activity{
     Button makeAccountButton;
     EditText enterUsername, enterPassword;
 
+    BackgroundWorker backgroundWorker;
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -27,12 +29,13 @@ public class MainActivity extends Activity{
         makeAccountButton = (Button)findViewById(R.id.make_account_button);
         enterUsername = (EditText)findViewById(R.id.enter_username_text);
         enterPassword = (EditText)findViewById(R.id.enter_password_text);
+        backgroundWorker = new BackgroundWorker(this);
 
 
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if (enterUsername.getText().toString().equals("a") &&
+                /**if (enterUsername.getText().toString().equals("a") &&
                         enterPassword.getText().toString().equals("a")) {
                     Toast.makeText(getApplicationContext(),
                             "Login Successful", Toast.LENGTH_SHORT).show();
@@ -44,19 +47,28 @@ public class MainActivity extends Activity{
                     Toast.makeText(getApplicationContext(), "Wrong Credentials",
                             Toast.LENGTH_SHORT).show();
 
-                }
+                }**/
+
+                String username = enterUsername.getText().toString();
+                String password = enterPassword.getText().toString();
+                String type = "1";
+
+                backgroundWorker.execute(type, username, password);
             }
         });
 
         makeAccountButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Make Account Screen",
-                            Toast.LENGTH_SHORT).show();
 
+                    //Toast.makeText(getApplicationContext(), "Make Account Screen",
+                    //      Toast.LENGTH_SHORT).show();
+                    Intent myIntent = new Intent(v.getContext(), CreateUser.class);
+                    startActivityForResult(myIntent, 0);
+                }
 
-            }
-        });
+            });
+
 
 
     }

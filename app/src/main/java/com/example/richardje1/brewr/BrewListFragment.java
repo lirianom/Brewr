@@ -1,16 +1,19 @@
 package com.example.richardje1.brewr;
 
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,23 @@ public class BrewListFragment extends Fragment {
 
     private RecyclerView mBrewRecyclerView;
     private BrewAdapter mAdapter;
-    //private ArrayList<Brew> mBrews;
+    private ArrayList<Brew> mBrews;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.brew_title);
+        mBrews = BrewLab.get(getActivity()).getBrews();
+        //BrewHolder brewHolder = new BrewHolder();
+        //brewHolder.getItemId();
+        //setHasOptionsMenu(true);
+
+        //BrewAdapter adapter = new BrewAdapter(mBrews);
+
+        //setListAdapter(adapter);
+        //setListAdapter(adapter);
+    }
+
 
     private class BrewHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener{
@@ -105,6 +124,35 @@ public class BrewListFragment extends Fragment {
         mAdapter = new BrewAdapter(brews);
         mBrewRecyclerView.setAdapter(mAdapter);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+    /**
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.new_brew:
+                Brew brew = new Brew();
+                BrewLab.get(getActivity()).addBrew(brew);
+                Intent intent = BrewPagerActivity
+                        .newIntent(getActivity(), brew.getId());
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected();
+        }
+
+
+        return true;
+    }
+    **/
+
+
 
 
 }
