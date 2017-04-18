@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home_page);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -59,7 +61,7 @@ public class HomePageActivity extends AppCompatActivity {
                             "make activity", Toast.LENGTH_SHORT).show();
 
                     //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
-                    Intent myIntent = new Intent(v.getContext(), CreateUser.class);
+                    Intent myIntent = new Intent(v.getContext(), CreateBrew.class);
                     startActivityForResult(myIntent, 0);
 
 
@@ -108,7 +110,9 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home_page, menu);
+        super.onCreateOptionsMenu(menu);
+
+        //getMenuInflater().inflate(R.menu.menu_home_page, menu);
         return true;
     }
 
@@ -122,6 +126,7 @@ public class HomePageActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.add_activity) {
             //CreateUser cr = new CreateUser();
+            //Intent i = new Intent(CreateUser.class);
             //Intent myIntent = new Intent((R.id.add_activity).getContext(), CreateUser.class);
             //startActivityForResult(myIntent, 0);
             return true;

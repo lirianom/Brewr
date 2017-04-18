@@ -28,5 +28,9 @@
     <string name="brew_title">Brew Title</string>
     <string name="new_brew">New Acitivity</string>
     <string name="username">Your Username</string>
-    <string name="put_description_here">Put your description here</string>
+    <string name="put_description_here">Describe your cup!</string>
+    <string name="submit_button">Submit</string>
+    <string name="bean_text">Bean</string>
+    <string name="roaster_text">Roaster</string>
+
 </resources>

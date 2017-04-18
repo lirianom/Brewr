@@ -35,6 +35,8 @@
         <activity
             android:name=".CreateUser"
             android:label="CreateUser"/>
+        <activity android:name=".CreateBrew"
+            android:label="CreateUser"/>
     </application>
 
 </manifest>
