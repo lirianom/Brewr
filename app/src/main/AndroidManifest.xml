@@ -34,9 +34,12 @@
             android:label="BrewActivity" />
         <activity
             android:name=".CreateUser"
-            android:label="CreateUser"/>
-        <activity android:name=".CreateBrew"
-            android:label="CreateUser"/>
+            android:label="CreateUser"
+            android:noHistory="true"/>
+        <activity
+            android:name=".CreateBrew"
+            android:label="CreateUser"
+            android:noHistory="true"/>
     </application>
 
 </manifest>

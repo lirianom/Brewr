@@ -174,6 +174,7 @@ public class BackgroundWorker extends AsyncTask <String, Void, String> {
         String email = "";
         if (params[0].equals("0")) {
             id = params[3];
+            id = id.replace("-", "");
             first_name = params[4];
             last_name = params[5];
             email = params[6];

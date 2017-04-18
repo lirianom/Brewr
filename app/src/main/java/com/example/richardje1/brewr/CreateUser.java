@@ -67,6 +67,7 @@ public class CreateUser extends Activity {
 
             String id = uuid.toString();
 
+
             backgroundWorker.execute(type, username, password, id, fName, lName, email);
         }
 

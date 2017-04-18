@@ -49,7 +49,7 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        setSupportActionBar(toolbar);
         mFloatingActionButton = (FloatingActionButton) findViewById(R.id.add_activity);
 
 
@@ -63,13 +63,15 @@ public class HomePageActivity extends AppCompatActivity {
                     //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
                     Intent myIntent = new Intent(v.getContext(), CreateBrew.class);
                     startActivityForResult(myIntent, 0);
+                    finish();
 
 
                 }
 
         });
+
+        //toolbar.inflateMenu(R.menu.menu_home_page);
         /**
-        toolbar.inflateMenu(R.menu.menu_home_page);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
             @Override
             public boolean onMenuItemClick(MenuItem item){

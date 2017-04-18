@@ -65,6 +65,7 @@ public class MainActivity extends Activity{
                     //      Toast.LENGTH_SHORT).show();
                     Intent myIntent = new Intent(v.getContext(), CreateUser.class);
                     startActivityForResult(myIntent, 0);
+                    finish();
                 }
 
             });
