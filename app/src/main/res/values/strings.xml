@@ -32,5 +32,15 @@
     <string name="submit_button">Submit</string>
     <string name="bean_text">Bean</string>
     <string name="roaster_text">Roaster</string>
-
+    <string-array name="brew_method_array">
+        <item>Drip</item>
+        <item>AeroPress</item>
+        <item>French Press</item>
+        <item>Hario V60</item>
+        <item>Kalita Wave</item>
+        <item>Chemex</item>
+        <item>Other Pourover</item>
+        <item>Espresso Drink</item>
+        <item>Other</item>
+    </string-array>
 </resources>

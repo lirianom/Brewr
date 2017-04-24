@@ -1,6 +1,8 @@
 package com.example.richardje1.brewr;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +25,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
+
 public class HomePageActivity extends AppCompatActivity {
 
     /**
@@ -34,6 +52,11 @@ public class HomePageActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    public static String[] friends;
+
+    //ConcurrentHashMap<String, String[]> ch = new ConcurrentHashMap<String, String[]>();
+
+    //BackgroundWorker backgroundWorker;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -41,12 +64,29 @@ public class HomePageActivity extends AppCompatActivity {
     private FloatingActionButton mFloatingActionButton;
     private ViewPager mViewPager;
     //private LinearLayout mLinearLayout;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //backgroundWorker = new BackgroundWorker(this);
+
         setContentView(R.layout.activity_home_page);
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            userID = b.getString("a");
+        }
+
+        FriendWorker fw = new FriendWorker();
+
+        fw.execute(userID);
+
+        SharedPreferences bb = getSharedPreferences("my_prefs", 0);
+        String m = bb.getString("FID", "");
+
+        friends = m.split("-");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,6 +102,7 @@ public class HomePageActivity extends AppCompatActivity {
 
                     //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
                     Intent myIntent = new Intent(v.getContext(), CreateBrew.class);
+                    myIntent.putExtra("a", userID);
                     startActivityForResult(myIntent, 0);
                     finish();
 
@@ -107,7 +148,6 @@ public class HomePageActivity extends AppCompatActivity {
 
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -175,6 +215,10 @@ public class HomePageActivity extends AppCompatActivity {
         }
     }
 
+    public static synchronized void setFriends(String[] f) {
+        friends = Arrays.copyOf(f, f.length);
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -210,4 +254,58 @@ public class HomePageActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    class FriendWorker extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = "http://student.cs.appstate.edu/lirianom/capstone/getFollow.php";
+            String id = params[0];
+            try {
+                //String user_name = params[2];
+                //String password = params[3];
+                URL url = new URL(URL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("user_id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //String friend[] = result.split("-");
+            //setFriends(f);
+            SharedPreferences prefs = getSharedPreferences("my_prefs", MODE_PRIVATE);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putString("FID", result);
+            edit.commit();
+
+        }
+
+    }
+
 }

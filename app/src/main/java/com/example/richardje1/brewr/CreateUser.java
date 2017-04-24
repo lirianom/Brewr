@@ -63,12 +63,8 @@ public class CreateUser extends Activity {
         }
         else {
             String type = "0";
-            UUID uuid = UUID.randomUUID();
 
-            String id = uuid.toString();
-
-
-            backgroundWorker.execute(type, username, password, id, fName, lName, email);
+            backgroundWorker.execute(type, fName, lName, username, email, password);
         }
 
     }
