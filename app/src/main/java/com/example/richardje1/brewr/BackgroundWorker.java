@@ -41,8 +41,9 @@ public class BackgroundWorker extends AsyncTask <String, Void, String> {
         //this.m = m;
         URL = new String[] {
                 "http://student.cs.appstate.edu/lirianom/capstone/register.php",
-                //"http://student.cs.appstate.edu/lirianom/capstone/fetch.php",
-                "http://student.cs.appstate.edu/lirianom/capstone/login.php"
+                "http://student.cs.appstate.edu/lirianom/capstone/login.php",
+                "http://student.cs.appstate.edu/lirianom/capstone/post.php",
+                "http://student.cs.appstate.edu/lirianom/capstone/getFollow.php"
         };
     }
 
@@ -166,18 +167,27 @@ public class BackgroundWorker extends AsyncTask <String, Void, String> {
         //String type = params[0];
         //int index = Integer.parseInt(params[1]);
         String URL = retURL(params[0]);
-        String user_name = params[1];
-        String password = params[2];
-        String id = "";
-        String first_name = "";
-        String last_name = "";
-        String email = "";
+        String param1 = "";
+        String param2 = "";
+        String param3 = "";
+        String param4 = "";
+        String param5 = "";
+        String param6 = "";
+        String param7 = "";
+        String param8 = "";
         if (params[0].equals("0")) {
-            id = params[3];
-            id = id.replace("-", "");
-            first_name = params[4];
-            last_name = params[5];
-            email = params[6];
+            param1 = params[1];
+            param2 = params[2];
+            param3 = params[3];
+            param4 = params[4];
+            param5 = params[5];
+        }
+        else if (params[0].equals("1")) {
+            param1 = params[1];
+            param2 = params[2];
+        }
+        else if (params[0].equals("3")) {
+            param1 = params[1];
         }
         //int user_id = Integer.parseInt(params[3]);
         try {
@@ -191,17 +201,19 @@ public class BackgroundWorker extends AsyncTask <String, Void, String> {
             OutputStream outputStream = httpURLConnection.getOutputStream();
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
             String post_data = "";
-            if (params[0].equals("1")) {
-                post_data = URLEncoder.encode("user_name", "UTF-8") + "=" + URLEncoder.encode(user_name, "UTF-8") + "&"
-                        + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
+            if (params[0].equals("0")) {
+                post_data = URLEncoder.encode("first_name", "UTF-8") + "=" + URLEncoder.encode(param1, "UTF-8") + "&"
+                        + URLEncoder.encode("last_name", "UTF-8") + "=" + URLEncoder.encode(param2, "UTF-8") + "&"
+                        + URLEncoder.encode("user_name", "UTF-8") + "=" + URLEncoder.encode(param3, "UTF-8") + "&"
+                        + URLEncoder.encode("user_email", "UTF-8") + "=" + URLEncoder.encode(param4, "UTF-8") + "&"
+                        + URLEncoder.encode("user_password", "UTF-8") + "=" + URLEncoder.encode(param5, "UTF-8");
             }
-            else if (params[0].equals("0")) {
-                post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&"
-                        + URLEncoder.encode("user_name", "UTF-8") + "=" + URLEncoder.encode(user_name, "UTF-8") + "&"
-                        + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8") + "&"
-                        + URLEncoder.encode("first_name", "UTF-8") + "=" + URLEncoder.encode(first_name, "UTF-8") + "&"
-                        + URLEncoder.encode("last_name", "UTF-8") + "=" + URLEncoder.encode(last_name, "UTF-8") + "&"
-                        + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8");
+            else if (params[0].equals("1")) {
+                post_data = URLEncoder.encode("user_name", "UTF-8") + "=" + URLEncoder.encode(param1, "UTF-8") + "&"
+                        + URLEncoder.encode("user_password", "UTF-8") + "=" + URLEncoder.encode(param2, "UTF-8");
+            }
+            else if (params[0].equals("3")) {
+                post_data = URLEncoder.encode("user_id", "UTF-8") + "=" + URLEncoder.encode(param1, "UTF-8");
             }
             bufferedWriter.write(post_data);
             bufferedWriter.flush();
@@ -235,7 +247,7 @@ public class BackgroundWorker extends AsyncTask <String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (result.equals("Wrong username / password")) {
+        if (result.equals("-1")) {
             Toast.makeText(context, "Wrong Credentials",
                     Toast.LENGTH_SHORT).show();
             Intent myIntent = new Intent(context, MainActivity.class);
@@ -246,16 +258,12 @@ public class BackgroundWorker extends AsyncTask <String, Void, String> {
             context.startActivity(myIntent);
         }
         else {
-
-            //Intent i = new Intent(context, MainPage.class);
-            //context.startActivity(i);
-            //Activity activity = (Activity) context;
-            //activity.finish();
+            //System.out.println(result);
             Toast.makeText(context,
                     "Login Successful", Toast.LENGTH_SHORT).show();
 
-            //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
             Intent myIntent = new Intent(context, HomePageActivity.class);
+            myIntent.putExtra("a", result);
             context.startActivity(myIntent);
         }
     }
