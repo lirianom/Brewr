@@ -32,6 +32,7 @@ public class BrewListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.brew_title);
+
         mBrews = BrewLab.get(getActivity()).getBrews();
         //BrewHolder brewHolder = new BrewHolder();
         //brewHolder.getItemId();
@@ -48,6 +49,7 @@ public class BrewListFragment extends Fragment {
         implements View.OnClickListener{
         private TextView mTitleTextView;
         private TextView mDateTextView;
+        private TextView mUserTextView;
 
         private Brew mBrew;
 
@@ -58,12 +60,14 @@ public class BrewListFragment extends Fragment {
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.brew_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.brew_date);
-        }
+            mUserTextView = (TextView) itemView.findViewById(R.id.shown_user);
+         }
 
         public void bind(Brew brew){
             mBrew = brew;
-            mTitleTextView.setText(mBrew.getTitle());
-            mDateTextView.setText(mBrew.getDate().toString());
+            mTitleTextView.setText(mBrew.getmTitle());
+            mDateTextView.setText(mBrew.getmDate());
+            mUserTextView.setText(mBrew.getmUserName());
         }
 
         @Override
