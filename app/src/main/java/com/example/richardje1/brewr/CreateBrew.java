@@ -38,6 +38,8 @@ public class CreateBrew extends Activity {
     TextView usernameDisplay;
     Button createButton;
 
+    View viewer;
+
     ActivityWorker aw;
 
     //BackgroundWorker backgroundWorker;
@@ -55,7 +57,6 @@ public class CreateBrew extends Activity {
 
         aw = new ActivityWorker();
 
-        createButton = (Button) findViewById(R.id.button);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_brew);
@@ -65,6 +66,8 @@ public class CreateBrew extends Activity {
         enterRoaster = (EditText) findViewById(R.id.roaster_text);
         enterBean = (EditText) findViewById(R.id.bean_text);
         enterMethod = (Spinner) findViewById(R.id.brew_method);
+        createButton = (Button) findViewById(R.id.button);
+
         enterMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -88,6 +91,8 @@ public class CreateBrew extends Activity {
                 description = enterDescription.getText().toString();
                 bean = enterBean.getText().toString();
                 roaster = enterRoaster.getText().toString();
+
+                viewer = v;
 
                 aw.execute(userID, title, description, roaster, bean, method);
             }
@@ -162,7 +167,8 @@ public class CreateBrew extends Activity {
             if (result.equals("Activity Created!")) {
                 Toast.makeText(getApplicationContext(),
                         result, Toast.LENGTH_SHORT).show();
-                Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
+                Intent myIntent = new Intent(viewer.getContext(), HomePageActivity.class);
+                myIntent.putExtra("a", userID);
                 startActivity(myIntent);
             }
 
