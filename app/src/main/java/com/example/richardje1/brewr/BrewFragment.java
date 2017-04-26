@@ -23,6 +23,7 @@ public class BrewFragment extends Fragment {
     private TextView mTitleField;
     private TextView mBrewDate;
     private TextView mUsername;
+    private Brew b;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     public static final String EXTRA_BREW_ID = "brewr.CRIME_ID";
@@ -34,6 +35,7 @@ public class BrewFragment extends Fragment {
 
         BrewFragment fragment = new BrewFragment();
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -44,13 +46,20 @@ public class BrewFragment extends Fragment {
                 .getSerializableExtra(BrewActivity.EXTRA_BREW_ID);
         mBrew = BrewLab.get(getActivity()).getBrew(brewId);
 
+
+        b = (Brew) getActivity().getIntent().getSerializableExtra("Brew");
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_brew, parent, false);
         mTitleField = (TextView)v.findViewById(R.id.brew_title);
-        mTitleField.setText(mBrew.getmTitle());
+        mTitleField.setText(b.getmTitle());
+        mBrewDate = (TextView)v.findViewById(R.id.brew_date);
+        mBrewDate.setText(b.getmDate());
+        mUsername = (TextView)v.findViewById(R.id.username);
+        mUsername.setText(b.getmUserName());
+        /*
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -66,9 +75,7 @@ public class BrewFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 //todo
             }
-        });
-        mBrewDate = (TextView)v.findViewById(R.id.brew_date);
-        mUsername = (TextView)v.findViewById(R.id.username);
+        });*/
         return v;
     }
 
