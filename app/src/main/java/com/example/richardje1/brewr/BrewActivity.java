@@ -16,9 +16,12 @@ public class BrewActivity extends SingleFragmentActivity{
 
     public static final String EXTRA_BREW_ID =
             "com.example.richardje1.brewr.brew_id";
+    //static Brew b = (Brew) getIntent().getSerializableExtra("Brew");
 
-    public static Intent newIntent(Context packageContext, UUID brewId){
+
+    public static Intent newIntent(Context packageContext, UUID brewId, Brew b){
         Intent intent = new Intent(packageContext, BrewActivity.class);
+        intent.putExtra("Brew", b);
         intent.putExtra(EXTRA_BREW_ID, brewId);
         return intent;
     }

@@ -1,5 +1,6 @@
 package com.example.richardje1.brewr;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -7,7 +8,7 @@ import java.util.UUID;
  * Created by richardje1 on 3/5/17.
  */
 
-public class Brew {
+public class Brew implements Serializable{
     private UUID mId;
     private String mAID;
     private String mUID;

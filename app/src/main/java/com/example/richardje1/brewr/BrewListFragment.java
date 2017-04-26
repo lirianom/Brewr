@@ -72,7 +72,8 @@ public class BrewListFragment extends Fragment {
 
         @Override
         public void onClick(View view){
-            Intent intent = BrewActivity.newIntent(getActivity(), mBrew.getId());
+            Intent intent = BrewActivity.newIntent(getActivity(), mBrew.getId(), mBrew);
+            //intent.putExtra("Brew", mBrew);
             startActivity(intent);
 
             //Toast.makeText(getActivity(),
@@ -155,8 +156,5 @@ public class BrewListFragment extends Fragment {
         return true;
     }
     **/
-
-
-
 
 }
