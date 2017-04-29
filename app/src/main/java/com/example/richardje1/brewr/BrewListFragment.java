@@ -30,12 +30,13 @@ public class BrewListFragment extends Fragment {
     private ArrayList<Brew> mBrews;
     private String[] friends;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.brew_title);
 
-        mBrews = BrewLab.get(getActivity(), friends).getBrews();
+        //mBrews = BrewLab.get(getActivity(), friends).getBrews();
         //BrewHolder brewHolder = new BrewHolder();
         //brewHolder.getItemId();
         //setHasOptionsMenu(true);
@@ -59,17 +60,20 @@ public class BrewListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private TextView mUserTextView;
+        private TextView mMethodTextView;
 
         private Brew mBrew;
 
         public BrewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_brew, parent, false));
+            //super(inflater.inflate(R.layout.fragment_brew, parent, false));
 
             itemView.setOnClickListener(this);
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.brew_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.brew_date);
             mUserTextView = (TextView) itemView.findViewById(R.id.shown_user);
+            //mMethodTextView = (TextView) itemView.findViewById(R.id.brew_method);
          }
 
         public void bind(Brew brew){
@@ -77,6 +81,7 @@ public class BrewListFragment extends Fragment {
             mTitleTextView.setText(mBrew.getmTitle());
             mDateTextView.setText(mBrew.getmDate());
             mUserTextView.setText(mBrew.getmUserName());
+            //mMethodTextView.setText(mBrew.getmMethod());
         }
 
         @Override
@@ -127,11 +132,12 @@ public class BrewListFragment extends Fragment {
         mBrewRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
+        //updateUI();
 
         return view;
     }
 
-    private void updateUI() {
+    public void updateUI() {
         BrewLab brewLab = BrewLab.get(getActivity(), friends);
         List<Brew> brews = brewLab.getBrews();
         mAdapter = new BrewAdapter(brews);
@@ -141,7 +147,7 @@ public class BrewListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+        //updateUI();
     }
     /**
     @Override

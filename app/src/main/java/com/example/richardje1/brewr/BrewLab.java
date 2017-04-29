@@ -31,7 +31,8 @@ import java.util.UUID;
 public class BrewLab {
     private ArrayList<Brew> mBrews;
 
-    private static BrewLab sBrewLab;
+    private static BrewLab sBrewLab1;
+    private static BrewLab sBrewLab2;
     private Context mAppContext;
     private static String[] friends;
 
@@ -54,31 +55,6 @@ public class BrewLab {
          **/
 
     }
-    public static BrewLab get(Context c, String[] f){
-        if(sBrewLab == null){
-            friends = Arrays.copyOf(f, f.length);
-            sBrewLab = new BrewLab(c.getApplicationContext());
-        }
-        return sBrewLab;
-    }
-
-    public static BrewLab get(Context c) {
-        if (sBrewLab == null) {
-            sBrewLab = new BrewLab(c.getApplicationContext());
-        }
-        return sBrewLab;
-    }
-
-    public ArrayList<Brew> getBrews(){
-        return mBrews;
-    }
-    public Brew getBrew(UUID id){
-        for (Brew b : mBrews){
-            if(b.getId().equals(id))
-                return b;
-        }
-        return null;
-    }
 
     public String friendsQuery() {
         String temp = "post.user_id = ";
@@ -91,8 +67,44 @@ public class BrewLab {
         return temp;
     }
 
-    public void setFriends(String[] f){
-        friends = Arrays.copyOf(f, f.length);
+    public static BrewLab get(Context c, String[] f){
+        boolean isSBL1 = true;
+        if(sBrewLab1 == null){
+            isSBL1 = true;
+            friends = Arrays.copyOf(f, f.length);
+            sBrewLab1 = new BrewLab(c.getApplicationContext());
+            return sBrewLab1;
+        }
+        else if (sBrewLab2 == null){
+            isSBL1 = false;
+            friends = Arrays.copyOf(f, f.length);
+            sBrewLab2 = new BrewLab(c.getApplicationContext());
+            return sBrewLab2;
+        }
+        return isSBL1?sBrewLab1:sBrewLab2;
+    }
+
+    public static BrewLab get(Context c) {
+        if(sBrewLab1 == null){
+            sBrewLab1 = new BrewLab(c.getApplicationContext());
+            return sBrewLab1;
+        }
+        else if (sBrewLab2 == null){
+            sBrewLab2 = new BrewLab(c.getApplicationContext());
+            return sBrewLab2;
+        }
+        return sBrewLab1;
+    }
+
+    public ArrayList<Brew> getBrews(){
+        return mBrews;
+    }
+    public Brew getBrew(UUID id){
+        for (Brew b : mBrews){
+            if(b.getId().equals(id))
+                return b;
+        }
+        return null;
     }
 
     public void addBrew(Brew b){
