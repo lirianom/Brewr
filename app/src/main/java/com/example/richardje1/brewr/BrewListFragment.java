@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,13 +28,14 @@ public class BrewListFragment extends Fragment {
     private RecyclerView mBrewRecyclerView;
     private BrewAdapter mAdapter;
     private ArrayList<Brew> mBrews;
+    private String[] friends;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.brew_title);
 
-        mBrews = BrewLab.get(getActivity()).getBrews();
+        mBrews = BrewLab.get(getActivity(), friends).getBrews();
         //BrewHolder brewHolder = new BrewHolder();
         //brewHolder.getItemId();
         //setHasOptionsMenu(true);
@@ -44,6 +46,13 @@ public class BrewListFragment extends Fragment {
         //setListAdapter(adapter);
     }
 
+    public void setFriends(String[] f) {
+        friends = Arrays.copyOf(f, f.length);
+    }
+
+    public String[] getFriends(){
+        return friends;
+    }
 
     private class BrewHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener{
@@ -123,9 +132,8 @@ public class BrewListFragment extends Fragment {
     }
 
     private void updateUI() {
-        BrewLab brewLab = BrewLab.get(getActivity());
+        BrewLab brewLab = BrewLab.get(getActivity(), friends);
         List<Brew> brews = brewLab.getBrews();
-
         mAdapter = new BrewAdapter(brews);
         mBrewRecyclerView.setAdapter(mAdapter);
     }
