@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
@@ -32,13 +33,15 @@ public class BrewLab {
 
     private static BrewLab sBrewLab;
     private Context mAppContext;
+    private static String[] friends;
 
     private BrewLab(Context appContext){
         mAppContext = appContext;
         mBrews = new ArrayList<Brew>();
 
         ActivityWorker aw = new ActivityWorker();
-        aw.execute("15");
+        String query = friendsQuery();
+        aw.execute(query);
 
         //todo
         /**
@@ -51,12 +54,21 @@ public class BrewLab {
          **/
 
     }
-    public static BrewLab get(Context c){
+    public static BrewLab get(Context c, String[] f){
         if(sBrewLab == null){
+            friends = Arrays.copyOf(f, f.length);
             sBrewLab = new BrewLab(c.getApplicationContext());
         }
         return sBrewLab;
     }
+
+    public static BrewLab get(Context c) {
+        if (sBrewLab == null) {
+            sBrewLab = new BrewLab(c.getApplicationContext());
+        }
+        return sBrewLab;
+    }
+
     public ArrayList<Brew> getBrews(){
         return mBrews;
     }
@@ -66,6 +78,21 @@ public class BrewLab {
                 return b;
         }
         return null;
+    }
+
+    public String friendsQuery() {
+        String temp = "post.user_id = ";
+        for (int i = 0; i < friends.length ; i++){
+            temp += friends[i];
+            if (i != friends.length - 1) {
+                temp += " OR post.user_id = ";
+            }
+        }
+        return temp;
+    }
+
+    public void setFriends(String[] f){
+        friends = Arrays.copyOf(f, f.length);
     }
 
     public void addBrew(Brew b){
