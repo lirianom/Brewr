@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.UUID;
 
 import static android.R.attr.fragment;
@@ -23,6 +25,9 @@ public class BrewFragment extends Fragment {
     private TextView mTitleField;
     private TextView mBrewDate;
     private TextView mUsername;
+    private TextView mBrewMethod;
+    private TextView mBrewDescription;
+    private TextView mBrewLikes;
     private Brew b;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -60,6 +65,14 @@ public class BrewFragment extends Fragment {
         mBrewDate.setText(b.getmDate());
         mUsername = (TextView)v.findViewById(R.id.username);
         mUsername.setText(b.getmUserName());
+        mBrewMethod = (TextView)v.findViewById(R.id.brew_method);
+        mBrewMethod.setText(b.getmMethod());
+        mBrewDescription = (TextView)v.findViewById(R.id.brew_description);
+        mBrewDescription.setText(b.getmText());
+        mBrewLikes = (TextView)v.findViewById(R.id.likes);
+        mBrewLikes.setText(b.getmLikes());
+
+
         /*
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override

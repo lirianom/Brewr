@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -37,6 +38,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
@@ -53,6 +55,7 @@ public class HomePageActivity extends AppCompatActivity {
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
     public static String[] friends;
+    public static String[] soloFriend;
 
     //ConcurrentHashMap<String, String[]> ch = new ConcurrentHashMap<String, String[]>();
 
@@ -64,7 +67,7 @@ public class HomePageActivity extends AppCompatActivity {
     private FloatingActionButton mFloatingActionButton;
     private ViewPager mViewPager;
     //private LinearLayout mLinearLayout;
-    String userID;
+    public static String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,8 @@ public class HomePageActivity extends AppCompatActivity {
         if (b != null) {
             userID = b.getString("a");
         }
+
+        soloFriend = new String[]{ userID };
 
         FriendWorker fw = new FriendWorker();
 
@@ -198,11 +203,27 @@ public class HomePageActivity extends AppCompatActivity {
          * number.
          */
         public static BrewListFragment newInstance(int sectionNumber) {
-            BrewListFragment fragment = new BrewListFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            fragment.setFriends(friends);
+            BrewListFragment fragment = null;
+            if (sectionNumber == 1) {
+                fragment = new BrewListFragment();
+                //Bundle args = new Bundle();
+                //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+                //fragment.setArguments(args);
+
+                fragment.setFriends(friends);
+                //fragment.updateUI();
+                //fragment.setFriends(friends, soloFriend);
+                //fragment.updateUI();
+            }
+            else if (sectionNumber == 2) {
+                fragment = new BrewListFragment();
+                //Bundle args = new Bundle();
+                //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+                //fragment.setArguments(args);
+                //fragment.setFriends(soloFriend, friends);
+
+                fragment.setFriends(soloFriend);
+            }
             return fragment;
         }
 
@@ -224,7 +245,7 @@ public class HomePageActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -232,8 +253,19 @@ public class HomePageActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            /**
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            **/
+            /*
+            switch(position) {
+                case 1:
+                    return FriendsFragment.newInstance(friends);
+                case 2:
+                    return SelfFragment.newInstance(soloFriend);
+                default:
+                    return null;
+            }*/
             return PlaceholderFragment.newInstance(position + 1);
         }
 
