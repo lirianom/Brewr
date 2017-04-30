@@ -29,6 +29,7 @@ public class BrewListFragment extends Fragment {
     private BrewAdapter mAdapter;
     private ArrayList<Brew> mBrews;
     private String[] friends;
+    private String userID;
 
 
     @Override
@@ -49,6 +50,10 @@ public class BrewListFragment extends Fragment {
 
     public void setFriends(String[] f) {
         friends = Arrays.copyOf(f, f.length);
+    }
+
+    public void setUserID(String s) {
+        userID = s;
     }
 
     public String[] getFriends(){
@@ -138,7 +143,7 @@ public class BrewListFragment extends Fragment {
     }
 
     public void updateUI() {
-        BrewLab brewLab = BrewLab.get(getActivity(), friends);
+        BrewLab brewLab = BrewLab.get(getActivity(), friends, userID);
         List<Brew> brews = brewLab.getBrews();
         mAdapter = new BrewAdapter(brews);
         mBrewRecyclerView.setAdapter(mAdapter);

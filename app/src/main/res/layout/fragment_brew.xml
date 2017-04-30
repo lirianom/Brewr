@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:id="@+id/fragment_brew"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:context="com.example.richardje1.brewr.HomePageActivity"
 
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/information_holder">
     <TextView
         android:id="@+id/brew_date"
         android:layout_width="196dp"
@@ -78,6 +86,43 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/brew_method"
         android:text="Description" />
+
+        <TextView
+            android:id="@+id/comments_display_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comments"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:paddingTop="20dp"
+            android:layout_below="@+id/brew_description"/>
+
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment_layout"
+        android:layout_below="@id/information_holder">
+    <ListView
+        android:id="@+id/comment_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+    </RelativeLayout>
+<android.support.design.widget.FloatingActionButton
+
+    android:id="@+id/add_comment"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    app:srcCompat="@drawable/ic_action_name"
+    android:layout_marginRight="@dimen/fab_margin"
+    android:layout_marginTop="@dimen/fab_margin"
+    android:layout_marginBottom="@dimen/fab_margin"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"/>
 
 
 </RelativeLayout>

@@ -102,8 +102,8 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getApplicationContext(),
-                            "make activity", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),
+                //            "make activity", Toast.LENGTH_SHORT).show();
 
                     //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
                     Intent myIntent = new Intent(v.getContext(), CreateBrew.class);
@@ -210,6 +210,7 @@ public class HomePageActivity extends AppCompatActivity {
                 //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
                 //fragment.setArguments(args);
 
+                fragment.setUserID(userID);
                 fragment.setFriends(friends);
                 //fragment.updateUI();
                 //fragment.setFriends(friends, soloFriend);
@@ -221,7 +222,7 @@ public class HomePageActivity extends AppCompatActivity {
                 //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
                 //fragment.setArguments(args);
                 //fragment.setFriends(soloFriend, friends);
-
+                fragment.setUserID(userID);
                 fragment.setFriends(soloFriend);
             }
             return fragment;
