@@ -40,6 +40,9 @@
             android:name=".CreateBrew"
             android:label="CreateUser"
             android:noHistory="true"/>
+        <activity
+            android:name=".CreateComment"
+            android:label="CreateComment"/>
     </application>
 
 </manifest>

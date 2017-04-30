@@ -35,6 +35,7 @@ public class BrewLab {
     private static BrewLab sBrewLab2;
     private Context mAppContext;
     private static String[] friends;
+    private static String self;
 
     private BrewLab(Context appContext){
         mAppContext = appContext;
@@ -67,17 +68,19 @@ public class BrewLab {
         return temp;
     }
 
-    public static BrewLab get(Context c, String[] f){
+    public static BrewLab get(Context c, String[] f, String s){
         boolean isSBL1 = true;
         if(sBrewLab1 == null){
             isSBL1 = true;
             friends = Arrays.copyOf(f, f.length);
+            self = s;
             sBrewLab1 = new BrewLab(c.getApplicationContext());
             return sBrewLab1;
         }
         else if (sBrewLab2 == null){
             isSBL1 = false;
             friends = Arrays.copyOf(f, f.length);
+            self = s;
             sBrewLab2 = new BrewLab(c.getApplicationContext());
             return sBrewLab2;
         }
@@ -160,6 +163,7 @@ public class BrewLab {
                 Brew b;
                 if(i / 10 != currentBrew) {
                     b = new Brew();
+                    b.setmViewerID(self);
                     b.setmUserName(parts[i]);
                     b.setmUID(parts[i+1]);
                     b.setmAID(parts[i+2]);

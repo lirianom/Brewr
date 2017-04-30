@@ -10,6 +10,16 @@ import java.util.UUID;
 
 public class Brew implements Serializable{
     private UUID mId;
+
+    public String getmViewerID() {
+        return mViewerID;
+    }
+
+    public void setmViewerID(String mViewerID) {
+        this.mViewerID = mViewerID;
+    }
+
+    private String mViewerID;
     private String mAID;
     private String mUID;
     private String mTitle;
