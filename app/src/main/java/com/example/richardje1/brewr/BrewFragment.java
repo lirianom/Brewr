@@ -1,6 +1,7 @@
 package com.example.richardje1.brewr;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -60,6 +61,7 @@ public class BrewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        this.getContext();
         UUID brewId = (UUID) getActivity().getIntent()
                 .getSerializableExtra(BrewActivity.EXTRA_BREW_ID);
         mBrew = BrewLab.get(getActivity()).getBrew(brewId);
@@ -94,6 +96,7 @@ public class BrewFragment extends Fragment {
         mBrewLikes = (TextView)v.findViewById(R.id.likes);
         mBrewLikes.setText(b.getmLikes());
         mCommentButton = (FloatingActionButton)v.findViewById(R.id.add_comment);
+        mCommentList = (ListView)v.findViewById(R.id.comment_list);
         mCommentButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -111,15 +114,18 @@ public class BrewFragment extends Fragment {
         });
 
 
-/**
+
         // Create and populate a List of planet names.
-        String[] comments = new String[] { "User 1 \n    this is the text data", "User 2 \n    this is the text data"};
+        String[] comments = new String[] { "User 1 \n    this is the text data", "User 2 \n    this is the text data", "User 2 \n    this is the text data",
+                "User 2 \n    this is the text data","User 2 \n    this is the text data","User 2 \n    this is the text data","User 2 \n    this is the text data",
+                "User 2 \n    this is the text data","User 2 \n    this is the text data"};
         ArrayList<String> commentList = new ArrayList<String>();
         commentList.addAll( Arrays.asList(comments) );
-
+        //Context c = new Context().c;
         // Create ArrayAdapter using the planet list.
-        listAdapter = new ArrayAdapter<String>(this, R.layout.comment_fragment2, commentList);
-**/
+        listAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.comment_fragment2, commentList);
+        mCommentList.setAdapter( listAdapter );
+
 
         // Set the ArrayAdapter as the ListView's adapter.
     //    mainListView.setAdapter( listAdapter );
