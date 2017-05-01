@@ -156,26 +156,27 @@ public class BrewLab {
 
         @Override
         protected void onPostExecute(String result) {
-            String[] parts = result.split("%`%");
-            int currentBrew = -1;
-            for (int i = 0; i < parts.length; i++)
-            {
-                Brew b;
-                if(i / 10 != currentBrew) {
-                    b = new Brew();
-                    b.setmViewerID(self);
-                    b.setmUserName(parts[i]);
-                    b.setmUID(parts[i+1]);
-                    b.setmAID(parts[i+2]);
-                    b.setmTitle(parts[i+3]);
-                    b.setmText(parts[i+4]);
-                    b.setmRoaster(parts[i+5]);
-                    b.setmBean(parts[i+6]);
-                    b.setmDate(parts[i+7]);
-                    b.setmLikes(parts[i+8]);
-                    b.setmMethod(parts[i+9]);
-                    currentBrew++;
-                    mBrews.add(b);
+            if (!result.equals("0 results")) {
+                String[] parts = result.split("%`%");
+                int currentBrew = -1;
+                for (int i = 0; i < parts.length; i++) {
+                    Brew b;
+                    if (i / 10 != currentBrew) {
+                        b = new Brew();
+                        b.setmViewerID(self);
+                        b.setmUserName(parts[i]);
+                        b.setmUID(parts[i + 1]);
+                        b.setmAID(parts[i + 2]);
+                        b.setmTitle(parts[i + 3]);
+                        b.setmText(parts[i + 4]);
+                        b.setmRoaster(parts[i + 5]);
+                        b.setmBean(parts[i + 6]);
+                        b.setmDate(parts[i + 7]);
+                        b.setmLikes(parts[i + 8]);
+                        b.setmMethod(parts[i + 9]);
+                        currentBrew++;
+                        mBrews.add(b);
+                    }
                 }
             }
         }

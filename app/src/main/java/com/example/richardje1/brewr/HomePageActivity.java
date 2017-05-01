@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +65,8 @@ public class HomePageActivity extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private FloatingActionButton mFloatingActionButton;
+    private FloatingActionButton mFloatingAddActivity;
+    private FloatingActionButton mFloatingAddFriend;
     private ViewPager mViewPager;
     //private LinearLayout mLinearLayout;
     public static String userID;
@@ -72,7 +74,8 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ImageView logo = (ImageView)findViewById(R.id.imageView3);
+        //logo.setVisibility();
         //backgroundWorker = new BackgroundWorker(this);
 
         setContentView(R.layout.activity_home_page);
@@ -95,10 +98,10 @@ public class HomePageActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.add_activity);
+        mFloatingAddActivity = (FloatingActionButton) findViewById(R.id.add_activity);
 
 
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener(){
+        mFloatingAddActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
 
@@ -113,6 +116,25 @@ public class HomePageActivity extends AppCompatActivity {
 
 
                 }
+
+        });
+        mFloatingAddFriend = (FloatingActionButton) findViewById(R.id.add_friend);
+        mFloatingAddFriend.setSize(FloatingActionButton.SIZE_MINI);
+        mFloatingAddFriend.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(getApplicationContext(),
+                //            "make activity", Toast.LENGTH_SHORT).show();
+
+                //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
+                Intent myIntent = new Intent(v.getContext(), AddFriend.class);
+                myIntent.putExtra("a", userID);
+                startActivityForResult(myIntent, 0);
+                finish();
+
+
+            }
 
         });
 

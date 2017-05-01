@@ -43,4 +43,6 @@
         <item>Espresso Drink</item>
         <item>Other</item>
     </string-array>
+    <string name="add_a_friend">Add a new friend!</string>
+    <string name="search_for_friend">Search by username.</string>
 </resources>
