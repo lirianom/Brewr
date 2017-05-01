@@ -1,19 +1,13 @@
 package com.example.richardje1.brewr;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -27,47 +21,50 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.UUID;
 
 /**
- * Created by martin on 4/29/17.
+ * Created by martin on 4/30/17.
  */
 
-public class CreateComment extends Activity {
+public class AddFriend extends Activity {
 
-    EditText mComment;
-    String commentText;
+    EditText mUserNameEntry;
+    String userNameText;
     String userID;
-    String activityID;
-    Button createButton;
-    Brew b;
-
-
+    Button addButton;
+    Context c;
     View viewer;
-
-    CreateBrew.ActivityWorker aw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.comment_item);
+        setContentView(R.layout.add_friend);
 
 
-        createButton = (Button) findViewById(R.id.add_button);
-        mComment = (EditText) findViewById(R.id.comment_text) ;
+        addButton = (Button) findViewById(R.id.friend_search_button);
+        mUserNameEntry = (EditText) findViewById(R.id.enter_search);
 
 
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            userID = b.getString("a");
+        }
+
+        c = this.getApplicationContext();
 
 
-        createButton.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commentText = mComment.getText().toString();
+                userNameText = mUserNameEntry.getText().toString();
+
+                FollowWorker fw = new FollowWorker();
+                fw.execute(userID, userNameText);
 
                 viewer = v;
 
-                CommentWorker cw = new CommentWorker();
-                cw.execute(b.getmViewerID(), b.getmAID(), commentText);
+                //com.example.richardje1.brewr.CreateComment.CommentWorker cw = new com.example.richardje1.brewr.CreateComment.CommentWorker();
+                //cw.execute(b.getmViewerID(), b.getmAID(), commentText);
 
 
                 //finish();
@@ -89,14 +86,12 @@ public class CreateComment extends Activity {
 
     //backgroundWorker = new BackgroundWorker(this);
 
-    class CommentWorker extends AsyncTask<String, Void, String> {
-
+    class FollowWorker extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-            String URL = "http://student.cs.appstate.edu/lirianom/capstone/insertComment.php";
+            String URL = "http://student.cs.appstate.edu/lirianom/capstone/follow.php";
             String user_id = params[0];
-            String post_id = params[1];
-            String comment_text = params[2];
+            String user_name = params[1];
 
             try {
                 //String user_name = params[2];
@@ -108,9 +103,8 @@ public class CreateComment extends Activity {
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String post_data = URLEncoder.encode("user_id", "UTF-8") + "=" + URLEncoder.encode(user_id, "UTF-8") + "&"
-                        + URLEncoder.encode("post_id", "UTF-8") + "=" + URLEncoder.encode(post_id, "UTF-8") + "&"
-                        + URLEncoder.encode("comment_text", "UTF-8") + "=" + URLEncoder.encode(comment_text, "UTF-8");
+                String post_data = URLEncoder.encode("user_name", "UTF-8") + "=" + URLEncoder.encode(user_name, "UTF-8")+ "&"
+                        + URLEncoder.encode("user_id", "UTF-8") + "=" + URLEncoder.encode(user_id, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -136,12 +130,16 @@ public class CreateComment extends Activity {
 
         @Override
         protected void onPostExecute(String result) {
-            if (result.equals("Comment Created!")) {
+            if (result.equals("User found and added!")) {
                 Toast.makeText(getApplicationContext(),
                         result, Toast.LENGTH_SHORT).show();
-                finish();
+                Intent myIntent = new Intent(c, HomePageActivity.class);
+                startActivity(myIntent);
             }
-
+            else {
+                Toast.makeText(getApplicationContext(),
+                        "User Not Found", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

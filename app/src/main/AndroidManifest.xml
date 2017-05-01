@@ -43,6 +43,8 @@
         <activity
             android:name=".CreateComment"
             android:label="CreateComment"/>
+        <activity android:name=".AddFriend"
+            android:label="AddFriend"/>
     </application>
 
 </manifest>
