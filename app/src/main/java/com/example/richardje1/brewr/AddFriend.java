@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -23,70 +22,69 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 /**
- * Created by martin on 4/30/17.
+ * AddFriend Activity is the Activity that gets a allows you to
+ * get find and add a friend.
+ *
+ * @Author Martin Liriano
+ * @Author Jacob Richard
+ *
+ * @Version 1.0
  */
 
 public class AddFriend extends Activity {
 
-    EditText mUserNameEntry;
-    String userNameText;
-    String userID;
-    Button addButton;
-    Context c;
-    View viewer;
+    private EditText mUserNameEntry;
+    private String userNameText;
+    private String userID;
+    private Button addButton;
+    private Context c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_friend);
 
-
+        //button for adding a friend
         addButton = (Button) findViewById(R.id.friend_search_button);
+        //textfield for friend who is added
         mUserNameEntry = (EditText) findViewById(R.id.enter_search);
 
-
+        //Bundle has userID that was passed from HomePageActivity
         Bundle b = getIntent().getExtras();
         if (b != null) {
             userID = b.getString("a");
         }
 
+        //Application Context for the FollowWorker
         c = this.getApplicationContext();
-
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 userNameText = mUserNameEntry.getText().toString();
-
                 FollowWorker fw = new FollowWorker();
                 fw.execute(userID, userNameText);
-
-                viewer = v;
-
-                //com.example.richardje1.brewr.CreateComment.CommentWorker cw = new com.example.richardje1.brewr.CreateComment.CommentWorker();
-                //cw.execute(b.getmViewerID(), b.getmAID(), commentText);
-
-
-                //finish();
-                //aw.execute(userID, title, description, roaster, bean, method);
             }
         });
     }
 
-
-
-        /*
-        fName = enterFname.getText().toString();
-        lName = enterLname.getText().toString();
-        username = enterUsername.getText().toString();
-        passwordConf = passwordConfirm.getText().toString();
-        password = enterPassword.getText().toString();
-        email = enterEmail.getText().toString();
-        */
-
-    //backgroundWorker = new BackgroundWorker(this);
-
+    /**
+     * FollowWorker a class that connects with PHP script in order to
+     * work with Front-End Android Application.
+     *
+     * @Author Martin Liriano
+     * @Author Jacob Richard
+     * @Version 1.0
+     */
     class FollowWorker extends AsyncTask<String, Void, String> {
+
+        /**
+         * doInBackground runs after execute is called. This calls the follow.php
+         * script and gets whats passed in through the bufferedWriter.
+         *
+         * @param params params[0] = user_id, params[1] = user_name
+         * @return result String - result is what gets echo'ed from the PHP script
+         */
         @Override
         protected String doInBackground(String... params) {
             String URL = "http://student.cs.appstate.edu/lirianom/capstone/follow.php";
@@ -94,8 +92,6 @@ public class AddFriend extends Activity {
             String user_name = params[1];
 
             try {
-                //String user_name = params[2];
-                //String password = params[3];
                 java.net.URL url = new URL(URL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -128,6 +124,12 @@ public class AddFriend extends Activity {
             return null;
         }
 
+        /**
+         * onPostExecute is the last step in execute.
+         *
+         * @param result String - result is the string that is returned in
+         *                        doInBackground
+         */
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("User found and added!")) {

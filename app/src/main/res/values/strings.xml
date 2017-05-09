@@ -45,4 +45,6 @@
     </string-array>
     <string name="add_a_friend">Add a new friend!</string>
     <string name="search_for_friend">Search by username.</string>
+    <string name="method">Method: </string>
+    <string name="date_text">Date: </string>
 </resources>

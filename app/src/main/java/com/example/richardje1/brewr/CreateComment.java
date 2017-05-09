@@ -4,18 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -27,36 +19,34 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.UUID;
 
 /**
- * Created by martin on 4/29/17.
+ * CreateComment displays text entry boxes for the comment a user would
+ * enter. Uses the information to create a comment on the given activity.
+ *
+ * @Author Martin Liriano
+ * @Author Jacob Richard
+ * @Version 1.0
  */
-
 public class CreateComment extends Activity {
 
-    EditText mComment;
-    String commentText;
-    String userID;
-    String activityID;
-    Button createButton;
-    Brew b;
-
-
-    View viewer;
-
-    CreateBrew.ActivityWorker aw;
+    private EditText mComment;
+    private String commentText;
+    private Button createButton;
+    private Brew b;
+    private View viewer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comment_item);
 
-
         createButton = (Button) findViewById(R.id.add_button);
         mComment = (EditText) findViewById(R.id.comment_text) ;
 
+        Intent intent = getIntent();
 
+        b = (Brew) intent.getExtras().getSerializable("a");
 
 
         createButton.setOnClickListener(new View.OnClickListener() {
@@ -68,29 +58,27 @@ public class CreateComment extends Activity {
 
                 CommentWorker cw = new CommentWorker();
                 cw.execute(b.getmViewerID(), b.getmAID(), commentText);
-
-
-                //finish();
-                //aw.execute(userID, title, description, roaster, bean, method);
             }
         });
     }
 
-
-
-        /*
-        fName = enterFname.getText().toString();
-        lName = enterLname.getText().toString();
-        username = enterUsername.getText().toString();
-        passwordConf = passwordConfirm.getText().toString();
-        password = enterPassword.getText().toString();
-        email = enterEmail.getText().toString();
-        */
-
-    //backgroundWorker = new BackgroundWorker(this);
-
+    /**
+     * CommentWorker a class that connects with PHP script in order to
+     * work with Front-End Android Application.
+     *
+     * @Author Martin Liriano
+     * @Author Jacob Richard
+     * @Version 1.0
+     */
     class CommentWorker extends AsyncTask<String, Void, String> {
 
+        /**
+         * doInBackground runs after execute is called. This calls the insertComment.php
+         * script and gets whats passed in through the bufferedWriter.
+         *
+         * @param params params[0] = user_id, params[1] = post_id, params[2] = comment_text
+         * @return result String - result is what gets echo'ed from the PHP script
+         */
         @Override
         protected String doInBackground(String... params) {
             String URL = "http://student.cs.appstate.edu/lirianom/capstone/insertComment.php";
@@ -99,8 +87,6 @@ public class CreateComment extends Activity {
             String comment_text = params[2];
 
             try {
-                //String user_name = params[2];
-                //String password = params[3];
                 java.net.URL url = new URL(URL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -134,11 +120,21 @@ public class CreateComment extends Activity {
             return null;
         }
 
+        /**
+         * onPostExecute passes a Toast if their entry was valid.
+         * Then it calls finish
+         *
+         * @param result
+         */
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("Comment Created!")) {
                 Toast.makeText(getApplicationContext(),
                         result, Toast.LENGTH_SHORT).show();
+                //ISSUE COULD BE HERE
+                //Intent myIntent = new Intent(getApplicationContext(), BrewFragment.class);
+                //myIntent.putExtra("a", result);
+                //startActivity(myIntent);
                 finish();
             }
 

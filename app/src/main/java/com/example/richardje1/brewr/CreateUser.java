@@ -15,7 +15,6 @@ import java.util.UUID;
  */
 
 public class CreateUser extends Activity {
-    BrewrUser brewrUser;
     EditText enterFname, enterLname, enterUsername, enterPassword, passwordConfirm,
             enterEmail;
     Button createButton;
