@@ -67,6 +67,7 @@ public class HomePageActivity extends AppCompatActivity {
      */
     private FloatingActionButton mFloatingAddActivity;
     private FloatingActionButton mFloatingAddFriend;
+    private FloatingActionButton mFloatingRefresh;
     private ViewPager mViewPager;
     //private LinearLayout mLinearLayout;
     public static String userID;
@@ -74,22 +75,27 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImageView logo = (ImageView)findViewById(R.id.imageView3);
-        //logo.setVisibility();
-        //backgroundWorker = new BackgroundWorker(this);
-
         setContentView(R.layout.activity_home_page);
 
         Bundle b = getIntent().getExtras();
         if (b != null) {
             userID = b.getString("a");
         }
-
-        soloFriend = new String[]{ userID };
-
         FriendWorker fw = new FriendWorker();
 
         fw.execute(userID);
+
+        ImageView logo = (ImageView)findViewById(R.id.imageView3);
+        //logo.setVisibility();
+        //backgroundWorker = new BackgroundWorker(this);
+
+
+
+
+
+        soloFriend = new String[]{ userID };
+
+
 
         SharedPreferences bb = getSharedPreferences("my_prefs", 0);
         String m = bb.getString("FID", "");
@@ -108,14 +114,14 @@ public class HomePageActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(),
                 //            "make activity", Toast.LENGTH_SHORT).show();
 
-                    //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
-                    Intent myIntent = new Intent(v.getContext(), CreateBrew.class);
-                    myIntent.putExtra("a", userID);
-                    startActivityForResult(myIntent, 0);
-                    finish();
+                //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
+                Intent myIntent = new Intent(v.getContext(), CreateBrew.class);
+                myIntent.putExtra("a", userID);
+                startActivityForResult(myIntent, 0);
+                finish();
 
 
-                }
+            }
 
         });
         mFloatingAddFriend = (FloatingActionButton) findViewById(R.id.add_friend);
@@ -137,24 +143,42 @@ public class HomePageActivity extends AppCompatActivity {
             }
 
         });
+        mFloatingRefresh = (FloatingActionButton) findViewById(R.id.refresh);
+        mFloatingRefresh.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(getApplicationContext(),
+                //            "make activity", Toast.LENGTH_SHORT).show();
+
+                //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
+                Intent myIntent = new Intent(v.getContext(), HomePageActivity.class);
+                myIntent.putExtra("a", userID);
+                startActivityForResult(myIntent, 0);
+                finish();
+
+
+            }
+
+        });
+
 
         //toolbar.inflateMenu(R.menu.menu_home_page);
         /**
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
-            @Override
-            public boolean onMenuItemClick(MenuItem item){
-                switch(item.getItemId()){
-                    case R.id.action_settings:
-                        return true;
-                    case R.id.add_activity:
-                        CreateUser user = new CreateUser();
-                        Intent myIntent = new Intent(this.get);
-                        startActivityForResult(myIntent, 0);
-                        return true;
-                }
-
-               return false;
-            }
+         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
+        @Override
+        public boolean onMenuItemClick(MenuItem item){
+        switch(item.getItemId()){
+        case R.id.action_settings:
+        return true;
+        case R.id.add_activity:
+        CreateUser user = new CreateUser();
+        Intent myIntent = new Intent(this.get);
+        startActivityForResult(myIntent, 0);
+        return true;
+        }
+        return false;
+        }
         });
          **/
         setSupportActionBar(toolbar);
@@ -277,9 +301,9 @@ public class HomePageActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             /**
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            **/
+             // getItem is called to instantiate the fragment for the given page.
+             // Return a PlaceholderFragment (defined as a static inner class below).
+             **/
             /*
             switch(position) {
                 case 1:

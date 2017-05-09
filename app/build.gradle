@@ -31,4 +31,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
+    compile files('/home/martin/AndroidStudioProjects/Brewr/.idea/libraries/commons-codec-1.10.jar')
 }

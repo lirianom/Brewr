@@ -19,6 +19,10 @@
         android:textStyle="bold"
         android:layout_below="@id/comment_username"
         android:id="@+id/comment_data"/>
-
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/comment_data"
+        android:background="#c0c0c0"/>
 
 </RelativeLayout>

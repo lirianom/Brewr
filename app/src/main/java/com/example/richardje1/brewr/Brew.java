@@ -1,24 +1,22 @@
 package com.example.richardje1.brewr;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.UUID;
 
 /**
- * Created by richardje1 on 3/5/17.
+ * Brew is the object that holds all the information needed to process and
+ * display a post on the page.
+ *
+ * Contains getters and setters for al the fields
+ *
+ * @Author Jacob Richard
+ * @Author Martin Liriano
+ * @Version 1.0
  */
+public class Brew implements Serializable {
 
-public class Brew implements Serializable{
+    //All the fields needed for the Brew
     private UUID mId;
-
-    public String getmViewerID() {
-        return mViewerID;
-    }
-
-    public void setmViewerID(String mViewerID) {
-        this.mViewerID = mViewerID;
-    }
-
     private String mViewerID;
     private String mAID;
     private String mUID;
@@ -31,6 +29,14 @@ public class Brew implements Serializable{
     private String mDate;
     private String mUserName;
 
+    public String getmViewerID() {
+        return mViewerID;
+    }
+
+    public void setmViewerID(String mViewerID) {
+        this.mViewerID = mViewerID;
+    }
+
     public String getmDate() {
         return mDate;
     }
@@ -38,8 +44,6 @@ public class Brew implements Serializable{
     public void setmDate(String mDate) {
         this.mDate = mDate;
     }
-
-
 
     public String getmText() {
         return mText;

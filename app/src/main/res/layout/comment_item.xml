@@ -15,7 +15,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="put comment data here"
+        android:hint="put comment data here"
         android:layout_margin="20dp"
         android:id="@+id/comment_text"
         />

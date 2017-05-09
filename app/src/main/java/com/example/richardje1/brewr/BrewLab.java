@@ -1,10 +1,8 @@
 package com.example.richardje1.brewr;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import android.os.Handler;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,44 +17,39 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.UUID;
 
-//import static android.content.Context.MODE_PRIVATE;
-
 /**
- * Created by richardje1 on 3/6/17.
+ * BrewLab is what collects and holds the Brews that are created.
+ *
+ * @Author Martin Liriano
+ * @Author Jacob Richard
+ * @Version 1.0
  */
-
 public class BrewLab {
-    private ArrayList<Brew> mBrews;
 
+    private ArrayList<Brew> mBrews;
     private static BrewLab sBrewLab1;
     private static BrewLab sBrewLab2;
-    private Context mAppContext;
     private static String[] friends;
     private static String self;
 
     private BrewLab(Context appContext){
-        mAppContext = appContext;
         mBrews = new ArrayList<Brew>();
+        sBrewLab1 = null;
+        sBrewLab2 = null;
 
         ActivityWorker aw = new ActivityWorker();
         String query = friendsQuery();
         aw.execute(query);
-
-        //todo
-        /**
-        for(int i = 0; i <15; i++){
-            Brew b = new Brew();
-            b.setTitle("Activity #" + i);
-            b.setUser("Martin");
-            mBrews.add(b);
-        }
-         **/
-
     }
 
+    /**
+     * friendsQuery turns the friends array into a string where
+     * it can get queried from.
+     *
+     * @return temp String - returns the query ready string
+     */
     public String friendsQuery() {
         String temp = "post.user_id = ";
         for (int i = 0; i < friends.length ; i++){
@@ -68,23 +61,35 @@ public class BrewLab {
         return temp;
     }
 
-    public static BrewLab get(Context c, String[] f, String s){
+    /**
+     *  get is a getter for the entire class. Returns a brewLab with the context and friends
+     *  that are passed in from BrewListFragment.
+     *
+     *  get returns two different BrewLabs for self page fragment and friends page fragment
+     *
+     * @param c Context - the context that is passed in from the BrewListFragment
+     * @param friendsArg String[] - friends array that is passed from BrewListFragment
+     * @param selfArg String - userID that is passed in from BrewListFragment
+     *
+     * @return BrewLab
+     */
+    public static BrewLab get(Context c, String[] friendsArg, String selfArg){
         boolean isSBL1 = true;
         if(sBrewLab1 == null){
             isSBL1 = true;
-            friends = Arrays.copyOf(f, f.length);
-            self = s;
+            friends = Arrays.copyOf(friendsArg, friendsArg.length);
+            self = selfArg;
             sBrewLab1 = new BrewLab(c.getApplicationContext());
             return sBrewLab1;
         }
         else if (sBrewLab2 == null){
             isSBL1 = false;
-            friends = Arrays.copyOf(f, f.length);
-            self = s;
+            friends = Arrays.copyOf(friendsArg, friendsArg.length);
+            self = selfArg;
             sBrewLab2 = new BrewLab(c.getApplicationContext());
             return sBrewLab2;
         }
-        return isSBL1?sBrewLab1:sBrewLab2;
+        return isSBL1?sBrewLab2:sBrewLab1;
     }
 
     public static BrewLab get(Context c) {
@@ -99,30 +104,37 @@ public class BrewLab {
         return sBrewLab1;
     }
 
+    /**
+     * getBrews returns a list of Brews.
+     *
+     * @return ArrayList<Brew>
+     */
     public ArrayList<Brew> getBrews(){
         return mBrews;
     }
-    public Brew getBrew(UUID id){
-        for (Brew b : mBrews){
-            if(b.getId().equals(id))
-                return b;
-        }
-        return null;
-    }
 
-    public void addBrew(Brew b){
-        mBrews.add(b);
-    }
-
+    /**
+     * ActivityWorker a class that connects with PHP script in order to
+     * work with Front-End Android Application.
+     *
+     * @Author Martin Liriano
+     * @Author Jacob Richard
+     * @Version 1.0
+     */
     class ActivityWorker extends AsyncTask<String, Void, String> {
 
+        /**
+         * doInBackground runs after execute is called. This calls the getPost.php
+         * script and gets whats passed in through the bufferedWriter.
+         *
+         * @param params params[0] = user_id
+         * @return result String - result is what gets echo'ed from the PHP script
+         */
         @Override
         protected String doInBackground(String... params) {
             String URL = "http://student.cs.appstate.edu/lirianom/capstone/getPost.php";
             String id = params[0];
             try {
-                //String user_name = params[2];
-                //String password = params[3];
                 java.net.URL url = new URL(URL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -154,6 +166,12 @@ public class BrewLab {
             return null;
         }
 
+        /**
+         * onPostExecute is the last step of execute. Instantiates the
+         * Brew objects and adds them to the mBrew list.
+         *
+         * @param result
+         */
         @Override
         protected void onPostExecute(String result) {
             if (!result.equals("0 results")) {

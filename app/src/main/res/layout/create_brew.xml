@@ -17,37 +17,25 @@
 
         android:id="@+id/brew_title" />
 
-    <TextView
-        android:text="@string/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_below="@id/brew_title"
-        android:layout_marginTop="13dp"
-        android:id="@+id/shown_username" />
 
 
 
-    <Button android:id="@+id/brew_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        android:ems="10"
-        android:layout_below="@id/shown_username"/>
+
 
 
     <LinearLayout
         android:id="@+id/method_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/brew_date"
+        android:layout_below="@id/brew_title"
         android:padding="10dp">
 
     <TextView
         android:id="@+id/brew_method_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/brew_date"
+        android:layout_below="@id/brew_title"
         android:layout_weight="1"
         android:text="Brew Method"
         android:textSize="20dp">
@@ -58,7 +46,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_below="@id/brew_date"
+        android:layout_below="@id/brew_title"
         >
 
     </Spinner>

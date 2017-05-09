@@ -1,15 +1,11 @@
 package com.example.richardje1.brewr;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -36,28 +28,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static android.R.attr.fragment;
-
 /**
- * Created by richardje1 on 3/5/17.
+ * BrewFragment creates and instantiates a BrewFragment Object
+ *
+ * @Author Martin Liriano
+ * @Author Jacob Richard
+ * @Version 1.0
  */
-
 public class BrewFragment extends Fragment {
-    private Brew mBrew;
+
     private TextView mTitleField;
     private TextView mBrewDate;
     private TextView mUsername;
     private TextView mBrewMethod;
     private TextView mBrewDescription;
     private TextView mBrewLikes;
+    private TextView mRoaster;
+    private TextView mBean;
+    private Button mLikeButton;
     private FloatingActionButton mCommentButton;
     private ListView mCommentList;
     private Brew b;
     private ArrayAdapter<String> listAdapter ;
-    Context c;
-
-    private static final String ARG_SECTION_NUMBER = "section_number";
-    public static final String EXTRA_BREW_ID = "brewr.CRIME_ID";
+    private Context c;
+    public static final String EXTRA_BREW_ID = "brewr.BREW_ID";
     private static final String ARG_BREW_ID = "brew_id";
 
     public static BrewFragment newInstance(UUID brewId) {
@@ -70,29 +64,17 @@ public class BrewFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState){
+
         super.onCreate(savedInstanceState);
         this.getContext();
-        UUID brewId = (UUID) getActivity().getIntent()
-                .getSerializableExtra(BrewActivity.EXTRA_BREW_ID);
-        mBrew = BrewLab.get(getActivity()).getBrew(brewId);
-
-
         b = (Brew) getActivity().getIntent().getSerializableExtra("Brew");
         c = this.getContext();
         CommentWorker cw = new CommentWorker();
         cw.execute(b.getmAID());
-     /**  // Create and populate a List of planet names.
-        String[] comments = new String[] { "User 1 \n    this is the text data", "User 2 \n    this is the text data"};
-        ArrayList<String> commentList = new ArrayList<String>();
-        commentList.addAll( Arrays.asList(comments) );
-
-        // Create ArrayAdapter using the planet list.
-        listAdapter = new ArrayAdapter<String>(this, R.layout.comment_fragment2, commentList);
-**/
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState){
@@ -101,7 +83,10 @@ public class BrewFragment extends Fragment {
         mTitleField.setText(b.getmTitle());
         mBrewDate = (TextView)v.findViewById(R.id.brew_date);
         mCommentList = (ListView)v.findViewById(R.id.comment_list);
-
+        mRoaster = (TextView)v.findViewById(R.id.roaster_display_actual);
+        mRoaster.setText(b.getmRoaster());
+        mBean = (TextView)v.findViewById(R.id.bean_display_actual);
+        mBean.setText(b.getmBean());
         mBrewDate.setText(b.getmDate());
         mUsername = (TextView)v.findViewById(R.id.username);
         mUsername.setText(b.getmUserName());
@@ -109,80 +94,55 @@ public class BrewFragment extends Fragment {
         mBrewMethod.setText(b.getmMethod());
         mBrewDescription = (TextView)v.findViewById(R.id.brew_description);
         mBrewDescription.setText(b.getmText());
-        mBrewLikes = (TextView)v.findViewById(R.id.likes);
-        mBrewLikes.setText(b.getmLikes());
-        mCommentButton = (FloatingActionButton)v.findViewById(R.id.add_comment);
-        mCommentList = (ListView)v.findViewById(R.id.comment_list);
-        mCommentButton.setOnClickListener(new View.OnClickListener(){
+        mLikeButton = (Button)v.findViewById(R.id.like_button);
+        mLikeButton.setText("Likes: " + b.getmLikes());
+        int likes = Integer.parseInt(b.getmLikes());
+        mLikeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String activityID; // add activity #
-                //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
-                Intent myIntent = new Intent(v.getContext(), CreateComment.class);
-                myIntent.putExtra("a",b);
-                //myIntent.putExtra("a", activityID);
-                startActivityForResult(myIntent, 0);
-                //finish();
-
+               mLikeButton.setText("Likes: 1");
 
             }
 
         });
 
+        mCommentButton = (FloatingActionButton)v.findViewById(R.id.add_comment);
+        mCommentList = (ListView)v.findViewById(R.id.comment_list);
 
-
-        // Create and populate a List of planet names.
-        String[] comments = new String[] { "User 1 \n    this is the text data", "User 2 \n    this is the text data", "User 2 \n    this is the text data",
-                "User 2 \n    this is the text data","User 2 \n    this is the text data","User 2 \n    this is the text data","User 2 \n    this is the text data",
-                "User 2 \n    this is the text data","User 2 \n    this is the text data"};
-        ArrayList<String> commentList = new ArrayList<String>();
-        commentList.addAll( Arrays.asList(comments) );
-        //Context c = new Context().c;
-        // Create ArrayAdapter using the planet list.
-        listAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.comment_fragment2, commentList);
-        mCommentList.setAdapter( listAdapter );
-
-
-        // Set the ArrayAdapter as the ListView's adapter.
-    //    mainListView.setAdapter( listAdapter );
-    //    mCommentList.add
-
-
-        /*
-        mTitleField.addTextChangedListener(new TextWatcher() {
+        mCommentButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //todo
+            public void onClick(View v) {
+                Intent myIntent = new Intent(v.getContext(), CreateComment.class);
+                myIntent.putExtra("a", b);
+                startActivityForResult(myIntent, 0);
             }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mBrew.setmTitle(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                //todo
-            }
-        });*/
+        });
         return v;
     }
 
-
     /**
-     * Returns a new instance of this fragment for the given section
-     * number.
+     * CommentWorker a class that connects with PHP script in order to
+     * work with Front-End Android Application.
+     *
+     * @Author Martin Liriano
+     * @Author Jacob Richard
+     * @Version 1.0
      */
-
     class CommentWorker extends AsyncTask<String, Void, String> {
 
+        /**
+         * doInBackground runs after execute is called. This calls the getComment.php
+         * script and gets whats passed in through the bufferedWriter.
+         *
+         * @param params params[0] = post_id
+         * @return result String - result is what gets echo'ed from the PHP script
+         */
         @Override
         protected String doInBackground(String... params) {
             String URL = "http://student.cs.appstate.edu/lirianom/capstone/getComment.php";
             String id = params[0];
             try {
-                //String user_name = params[2];
-                //String password = params[3];
                 java.net.URL url = new URL(URL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -214,25 +174,30 @@ public class BrewFragment extends Fragment {
             return null;
         }
 
+        /**
+         * onPostExecute handles what gets displayed in the comment section
+         * of the BrewActivityFragment
+         *
+         * @param result
+         */
         @Override
         protected void onPostExecute(String result) {
-            String[] parts = result.split("%`%");
-            String[] nA = new String[parts.length/2];
-            for (int i = 0; i < nA.length; i+=2) {
-                String temp = parts[i];
-                temp += "\n    " + parts[i + 1];
-                nA[i] = temp;
+            if (result != null) {
+                String[] parts = result.split("%`%");
+                String[] nA = new String[parts.length / 2];
+                int j = 0;
+                for (int i = 0; i < parts.length - 1; i += 2) {
+
+                    String temp = parts[i];
+                    temp += "\n    " + parts[i + 1];
+                    nA[j] = temp;
+                    j++;
+                }
+                ArrayList<String> commentList = new ArrayList<String>();
+                commentList.addAll(Arrays.asList(nA));
+                listAdapter = new ArrayAdapter<String>(c, R.layout.comment_fragment2, commentList);
+                mCommentList.setAdapter(listAdapter);
             }
-            ArrayList<String> commentList = new ArrayList<String>();
-            commentList.addAll( Arrays.asList(nA) );
-            //Context c = new Context().c;
-            //Create ArrayAdapter using the planet list.
-            listAdapter = new ArrayAdapter<String>(c, R.layout.comment_fragment2, commentList);
-            mCommentList.setAdapter( listAdapter );
         }
-
     }
-
-
 }
- // 153

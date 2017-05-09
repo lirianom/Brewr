@@ -2,7 +2,6 @@ package com.example.richardje1.brewr;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -11,9 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -25,49 +22,41 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.UUID;
 
 /**
- * Created by richardje1 on 4/17/17.
+ * CreateBrew creates and instantiates a Brew.
+ *
+ * @Author Martin Liriano
+ * @Author Jacob Richard
+ * @Version 1.0
  */
-
 public class CreateBrew extends Activity {
-    BrewrUser brewrUser;
-    EditText enterTitle, enterDescription, enterRoaster, enterBean;
-    Spinner enterMethod;
-    TextView usernameDisplay;
-    Button createButton;
 
-    View viewer;
-
-    ActivityWorker aw;
-
-    //BackgroundWorker backgroundWorker;
-
-    String title, description, username, method, roaster, bean;
-
-    String userID;
-
+    private EditText enterTitle, enterDescription, enterRoaster, enterBean;
+    private Spinner enterMethod;
+    private Button createButton;
+    private View viewer;
+    private String title, description, method, roaster, bean, userID;
 
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Bundle holds the data that gets passed in
         Bundle b = getIntent().getExtras();
         if (b != null) {
             userID = b.getString("a");
         }
 
-        aw = new ActivityWorker();
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_brew);
+
         enterTitle = (EditText) findViewById(R.id.brew_title);
         enterDescription = (EditText) findViewById(R.id.description);
-        usernameDisplay = (TextView) findViewById(R.id.shown_username);
         enterRoaster = (EditText) findViewById(R.id.roaster_text);
         enterBean = (EditText) findViewById(R.id.bean_text);
         enterMethod = (Spinner) findViewById(R.id.brew_method);
         createButton = (Button) findViewById(R.id.button);
 
+        //Allows method to be set to whatever method is set in the spinner
         enterMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -78,6 +67,7 @@ public class CreateBrew extends Activity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.brew_method_array,
                 android.R.layout.simple_spinner_item);
 
@@ -91,29 +81,38 @@ public class CreateBrew extends Activity {
                 description = enterDescription.getText().toString();
                 bean = enterBean.getText().toString();
                 roaster = enterRoaster.getText().toString();
-
                 viewer = v;
-
-                aw.execute(userID, title, description, roaster, bean, method);
+                if(title.isEmpty() ||description.isEmpty() || bean.isEmpty() ||roaster.isEmpty()){
+                    Toast.makeText(getApplicationContext(),
+                            "Missing one or more fields", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    ActivityWorker aw = new ActivityWorker();
+                    aw.execute(userID, title, description, roaster, bean, method);
+                }
             }
         });
     }
 
 
-
-        /*
-        fName = enterFname.getText().toString();
-        lName = enterLname.getText().toString();
-        username = enterUsername.getText().toString();
-        passwordConf = passwordConfirm.getText().toString();
-        password = enterPassword.getText().toString();
-        email = enterEmail.getText().toString();
-        */
-
-        //backgroundWorker = new BackgroundWorker(this);
-
+    /**
+     * ActivityWorker a class that connects with PHP script in order to
+     * work with Front-End Android Application.
+     *
+     * @Author Martin Liriano
+     * @Author Jacob Richard
+     * @Version 1.0
+     */
     class ActivityWorker extends AsyncTask<String, Void, String> {
 
+        /**
+         * doInBackground runs after execute is called. This calls the insertPost.php
+         * script and gets whats passed in through the bufferedWriter.
+         *
+         * @param params params[0] = user_id, params[1] = post_name, params[2] = post_text
+         *               params[3] = post_roaster, params[4] = post_bean, params[5] = post_method
+         * @return result String - result is what gets echo'ed from the PHP script
+         */
         @Override
         protected String doInBackground(String... params) {
             String URL = "http://student.cs.appstate.edu/lirianom/capstone/insertPost.php";
@@ -124,8 +123,7 @@ public class CreateBrew extends Activity {
             String bean = params[4];
             String method = params[5];
             try {
-                //String user_name = params[2];
-                //String password = params[3];
+
                 java.net.URL url = new URL(URL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -162,7 +160,13 @@ public class CreateBrew extends Activity {
                 return null;
             }
 
-            @Override
+        /**
+         * onPostExecute passes a Toast and returns the user to the HomePageActivity
+         * if their entry was valid
+         *
+         * @param result
+         */
+        @Override
             protected void onPostExecute(String result) {
             if (result.equals("Activity Created!")) {
                 Toast.makeText(getApplicationContext(),
@@ -171,7 +175,6 @@ public class CreateBrew extends Activity {
                 myIntent.putExtra("a", userID);
                 startActivity(myIntent);
             }
-
         }
     }
 }
