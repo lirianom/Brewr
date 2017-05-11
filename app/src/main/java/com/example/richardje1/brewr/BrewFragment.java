@@ -2,6 +2,7 @@ package com.example.richardje1.brewr;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -27,6 +30,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * BrewFragment creates and instantiates a BrewFragment Object
@@ -96,11 +101,33 @@ public class BrewFragment extends Fragment {
         mBrewDescription.setText(b.getmText());
         mLikeButton = (Button)v.findViewById(R.id.like_button);
         mLikeButton.setText("Likes: " + b.getmLikes());
-        int likes = Integer.parseInt(b.getmLikes());
+        //int likes = Integer.parseInt(b.getmLikes());
+
+
         mLikeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-               mLikeButton.setText("Likes: 1");
+                isFound found = new isFound();
+                found.execute(b.getmViewerID(), b.getmAID());
+
+                SharedPreferences bb = c.getSharedPreferences("refs", 0);
+                String m = bb.getString("ID", "");
+
+                int likes = Integer.parseInt(b.getmLikes());
+
+                if(m.equals("false")){
+                    //set likes in database
+                            likes++;
+                }
+                mLikeButton.setText("Likes: " + likes);
+
+                // redundant loop to help speed of display
+                if(m.equals("false")){
+                    updateLikes uL = new updateLikes();
+                    uL.execute(b.getmViewerID(), b.getmAID());
+                    Likes l = new Likes();
+                    l.execute(b.getmAID(), likes + "");
+                }
 
             }
 
@@ -198,6 +225,188 @@ public class BrewFragment extends Fragment {
                 listAdapter = new ArrayAdapter<String>(c, R.layout.comment_fragment2, commentList);
                 mCommentList.setAdapter(listAdapter);
             }
+        }
+    }
+
+    class isFound extends AsyncTask<String, Void, String> {
+
+        /**
+         * doInBackground runs after execute is called. This calls the getComment.php
+         * script and gets whats passed in through the bufferedWriter.
+         *
+         * @param params params[0] = post_id
+         * @return result String - result is what gets echo'ed from the PHP script
+         */
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = "http://student.cs.appstate.edu/lirianom/capstone/userLiked.php";
+            String user_id = params[0];
+            String post_id = params[1];
+            try {
+                java.net.URL url = new URL(URL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("user_id", "UTF-8") + "=" + URLEncoder.encode(user_id, "UTF-8") + "&"
+                        + URLEncoder.encode("post_name", "UTF-8") + "=" + URLEncoder.encode(post_id, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /**
+         * onPostExecute handles what gets displayed in the comment section
+         * of the BrewActivityFragment
+         *
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            SharedPreferences prefs = c.getSharedPreferences("refs", MODE_PRIVATE);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putString("ID", result);
+            edit.commit();
+        }
+    }
+
+    class updateLikes extends AsyncTask<String, Void, String> {
+
+        /**
+         * doInBackground runs after execute is called. This calls the getComment.php
+         * script and gets whats passed in through the bufferedWriter.
+         *
+         * @param params params[0] = post_id
+         * @return result String - result is what gets echo'ed from the PHP script
+         */
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = "http://student.cs.appstate.edu/lirianom/capstone/insertUserLikes.php";
+            String user_id = params[0];
+            String post_id = params[1];
+            try {
+                java.net.URL url = new URL(URL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("user_id", "UTF-8") + "=" + URLEncoder.encode(user_id, "UTF-8") + "&"
+                        + URLEncoder.encode("post_id", "UTF-8") + "=" + URLEncoder.encode(post_id, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /**
+         * onPostExecute handles what gets displayed in the comment section
+         * of the BrewActivityFragment
+         *
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(c.getApplicationContext(),
+                    "Liked!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class Likes extends AsyncTask<String, Void, String> {
+
+        /**
+         * doInBackground runs after execute is called. This calls the getComment.php
+         * script and gets whats passed in through the bufferedWriter.
+         *
+         * @param params params[0] = post_id
+         * @return result String - result is what gets echo'ed from the PHP script
+         */
+        @Override
+        protected String doInBackground(String... params) {
+            String URL = "http://student.cs.appstate.edu/lirianom/capstone/like.php";
+            String post_likes = params[1];
+            String post_id = params[0];
+            try {
+                java.net.URL url = new URL(URL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("post_id", "UTF-8") + "=" + URLEncoder.encode(post_id, "UTF-8") + "&"
+                        + URLEncoder.encode("post_likes", "UTF-8") + "=" + URLEncoder.encode(post_likes, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /**
+         * onPostExecute handles what gets displayed in the comment section
+         * of the BrewActivityFragment
+         *
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            //Toast.makeText(c.getApplicationContext(),
+            //        "Liked!", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -55,7 +55,6 @@ public class Brew implements Serializable {
 
     public String getmAID() {
         return mAID;
-
     }
 
     public void setmAID(String mAID) {

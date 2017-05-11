@@ -66,16 +66,37 @@ public class BackgroundWorker extends AsyncTask <String, Void, String> {
         String param3 = "";
         String param4 = "";
         String param5 = "";
+        String temp;
+        //Implemented Hashing class
+        Password p = new Password();
         if (params[0].equals("0")) {
+
+            try {
+                //converts text into hash used to store in a plain database
+                temp = p.getSaltedHash(params[5]);
+            }
+            catch (Exception e){
+                temp = "";
+            }
+
             param1 = params[1];
             param2 = params[2];
             param3 = params[3];
             param4 = params[4];
-            param5 = params[5];
+            param5 = temp;
         }
         else if (params[0].equals("1")) {
+
+            try {
+                //converts text into hash used to store in a plain database
+                temp = p.getSaltedHash(params[2]);
+            }
+            catch (Exception e){
+                temp = "";
+            }
+
             param1 = params[1];
-            param2 = params[2];
+            param2 = temp;
         }
         try {
             URL url = new URL(URL);
@@ -141,6 +162,10 @@ public class BackgroundWorker extends AsyncTask <String, Void, String> {
         }
         else if (result.equals("Account Created")) {
             Intent myIntent = new Intent(context, MainActivity.class);
+            context.startActivity(myIntent);
+        }
+        else if (result.equals("Error!")) {
+            Intent myIntent = new Intent(context, CreateUser.class);
             context.startActivity(myIntent);
         }
         else {
