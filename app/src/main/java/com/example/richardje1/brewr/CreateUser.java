@@ -6,22 +6,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.UUID;
 
 /**
- * Created by richardje1 on 4/10/17.
+ * CreateUser creates a user and adds them to the database using Backgroundworker
+ *
+ * @Author Martin Liriano
+ * @Author Jacob Richard
+ * @Version 1.0
  */
-
 public class CreateUser extends Activity {
-    EditText enterFname, enterLname, enterUsername, enterPassword, passwordConfirm,
+    //fields used to enter user input
+    private EditText enterFname, enterLname, enterUsername, enterPassword, passwordConfirm,
             enterEmail;
-    Button createButton;
+    private Button createButton;
 
-    BackgroundWorker backgroundWorker;
+    private BackgroundWorker backgroundWorker;
 
-    String fName, lName, username, password, passwordConf, email;
+    //fields used to store the input
+    private String fName, lName, username, password, passwordConf, email;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,16 +36,6 @@ public class CreateUser extends Activity {
         passwordConfirm = (EditText) findViewById(R.id.confirm_password);
         enterEmail = (EditText) findViewById(R.id.edit_email);
         createButton = (Button) findViewById(R.id.make_account_button);
-
-        /*
-        fName = enterFname.getText().toString();
-        lName = enterLname.getText().toString();
-        username = enterUsername.getText().toString();
-        passwordConf = passwordConfirm.getText().toString();
-        password = enterPassword.getText().toString();
-        email = enterEmail.getText().toString();
-        */
-
         backgroundWorker = new BackgroundWorker(this);
     }
 
@@ -55,7 +47,7 @@ public class CreateUser extends Activity {
         password = enterPassword.getText().toString();
         email = enterEmail.getText().toString();
 
-
+        //Check to make sure passwords confirm matches the password
         if (!passwordConf.equals(password)) {
             Intent myIntent = new Intent(getApplicationContext(), CreateUser.class);
             startActivity(myIntent);
@@ -67,28 +59,4 @@ public class CreateUser extends Activity {
         }
 
     }
-        /*8
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //if (enterUsername.getText().toString().equals("a") &&
-                //       enterPassword.getText().toString().equals("a")) {
-                Toast.makeText(getApplicationContext(),
-                        "Created", Toast.LENGTH_SHORT).show();
-                //Intent myIntent = new Intent(v.getContext(), HomePageActivity.class);
-                //startActivityForResult(myIntent, 0);
-
-                //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
-                //Intent myIntent = new Intent(v.getContext(), HomePageActivity.class);
-                //startActivityForResult(myIntent, 0);
-                //} else {
-                //  Toast.makeText(getApplicationContext(), "Wrong Credentials",
-                //        Toast.LENGTH_SHORT).show();
-
-                //}
-            }
-        });
-**/
-
-
 }

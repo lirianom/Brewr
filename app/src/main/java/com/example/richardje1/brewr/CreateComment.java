@@ -61,6 +61,17 @@ public class CreateComment extends Activity {
             }
         });
     }
+    @Override
+    public void onBackPressed()
+    {
+        // code here to show dialog
+        super.onBackPressed();
+
+        Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
+        startActivityForResult(myIntent, 0);
+        finish();
+        // optional depending on your needs
+    }
 
     /**
      * CommentWorker a class that connects with PHP script in order to
@@ -131,10 +142,6 @@ public class CreateComment extends Activity {
             if (result.equals("Comment Created!")) {
                 Toast.makeText(getApplicationContext(),
                         result, Toast.LENGTH_SHORT).show();
-                //ISSUE COULD BE HERE
-                //Intent myIntent = new Intent(getApplicationContext(), BrewFragment.class);
-                //myIntent.putExtra("a", result);
-                //startActivity(myIntent);
                 finish();
             }
 

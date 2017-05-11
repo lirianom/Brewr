@@ -6,13 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
- * Created by richardje1 on 2/20/17.
+ * MainActivity is the primary page that gets pulled up when the application gets launched
+ * can log a user in or direct the user to a page to register
+ *
+ * @Author Martin Liriano
+ * @Author Jacob Richard
+ * @Version 1.0
  */
-
 public class MainActivity extends Activity{
 
     Button loginButton;
@@ -35,19 +37,6 @@ public class MainActivity extends Activity{
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                /**if (enterUsername.getText().toString().equals("a") &&
-                        enterPassword.getText().toString().equals("a")) {
-                    Toast.makeText(getApplicationContext(),
-                            "Login Successful", Toast.LENGTH_SHORT).show();
-
-                    //Intent myIntent = new Intent(v.getContext(), HomePageAllActivity.class);
-                    Intent myIntent = new Intent(v.getContext(), HomePageActivity.class);
-                    startActivityForResult(myIntent, 0);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Wrong Credentials",
-                            Toast.LENGTH_SHORT).show();
-
-                }**/
 
                 String username = enterUsername.getText().toString();
                 String password = enterPassword.getText().toString();
@@ -61,8 +50,6 @@ public class MainActivity extends Activity{
             @Override
             public void onClick(View v) {
 
-                    //Toast.makeText(getApplicationContext(), "Make Account Screen",
-                    //      Toast.LENGTH_SHORT).show();
                     Intent myIntent = new Intent(v.getContext(), CreateUser.class);
                     startActivityForResult(myIntent, 0);
                     finish();
