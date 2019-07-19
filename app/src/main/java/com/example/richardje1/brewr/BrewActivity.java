@@ -1,31 +1,34 @@
 package com.example.richardje1.brewr;
 
-
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 
 import java.util.UUID;
 
 /**
- * Created by richardje1 on 3/5/17.
+ * BrewActivity creates a fragment and Intent with the Brew that is passed in
+ *
+ * @Author Martin Liriano
+ * @Author Jacob Richard
+ * @Version 1.0
  */
-
 public class BrewActivity extends SingleFragmentActivity{
 
     public static final String EXTRA_BREW_ID =
             "com.example.richardje1.brewr.brew_id";
 
-    public static Intent newIntent(Context packageContext, UUID brewId){
+    //Creates and returns an Intent
+    public static Intent newIntent(Context packageContext, UUID brewId, Brew b){
         Intent intent = new Intent(packageContext, BrewActivity.class);
+        intent.putExtra("Brew", b);
         intent.putExtra(EXTRA_BREW_ID, brewId);
         return intent;
     }
 
+    //Creates and returns a fragment
+    //Creates a Fragment
     @Override
     protected Fragment createFragment(){
         //return new BrewFragment();

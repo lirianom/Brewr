@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
@@ -17,13 +20,18 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:minHeight="?attr/actionBarSize"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
+            android:layout_height="wrap_content"
+            app:titleTextColor="@android:color/white"
+            android:background="?attr/colorPrimary">
         </android.support.v7.widget.Toolbar>
+
+
+
+
+
+
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
@@ -32,6 +40,36 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_refresh"
+       />
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_action_name" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_toRightOf="@+id/refresh"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_add_friend"
+        />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -39,5 +77,25 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
+    <!--<FrameLayout
+        android:id="@+id/add_activity_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="30dp"
+        android:layout_gravity="bottom">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:text="@string/add_activity_button"
+            android:textSize="20dp"/>
+    </FrameLayout> -->
+
 
 </android.support.design.widget.CoordinatorLayout>
+
+

@@ -2,9 +2,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.richardje1.brewr.HomePageActivity">
+
+    <item
+        android:id="@+id/add_activity_idk"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_name"
+        android:title="@string/action_settings"
+        android:onClick="createUser"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
+        android:icon="@drawable/ic_settings"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>

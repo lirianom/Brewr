@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/create_brew"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Title"
+        android:ems="10"
+
+        android:id="@+id/brew_title" />
+
+
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/method_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/brew_title"
+        android:padding="10dp">
+
+    <TextView
+        android:id="@+id/brew_method_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/brew_title"
+        android:layout_weight="1"
+        android:text="Brew Method"
+        android:textSize="20dp">
+
+        </TextView>
+    <Spinner
+        android:id="@+id/brew_method"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_below="@id/brew_title"
+        >
+
+    </Spinner>
+
+    </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/roaster_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/roaster_text"
+            android:layout_below="@id/method_layout"/>
+        <EditText
+            android:id="@+id/bean_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/bean_text"
+            android:layout_below="@id/roaster_text"/>
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bean_text"
+        android:layout_weight="1"
+        android:hint="@string/put_description_here"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="3"
+
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/submit_button"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/button" />
+
+
+</RelativeLayout>

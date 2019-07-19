@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:id="@+id/comment_fragment"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textStyle="bold"
+        android:paddingTop="8dp"
+        android:id="@+id/comment_username"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:paddingBottom="14dp"
+        android:text="    the comment goes here"
+        android:textStyle="bold"
+        android:layout_below="@id/comment_username"
+        android:id="@+id/comment_data"/>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/comment_data"
+        android:background="#c0c0c0"/>
+
+</RelativeLayout>
